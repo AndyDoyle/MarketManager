@@ -56,7 +56,7 @@ export default {
                     {
                         label: '家电',
                         fillColor: 'rgba(241, 49, 74, 0.5)',
-                        data: [234, 278, 270, 190, 230]
+                        data: [200, 278, 270, 190, 230]
                     },
                     {
                         label: '百货',
