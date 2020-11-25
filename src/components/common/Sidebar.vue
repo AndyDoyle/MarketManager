@@ -149,6 +149,26 @@ export default {
                     icon: 'el-icon-lx-redpacket_fill',
                     index: '/donate',
                     title: '支持作者'
+                },
+                {
+                    icon: 'el-icon-lx-stock',
+                    index: '/stock',
+                    title: '库存表'
+                },
+                    {
+                    icon: 'el-icon-lx-supplier',
+                    index: '/supplier',
+                    title: '供应商表'
+                },
+                {
+                    icon: 'el-icon-lx-user',
+                    index: '/user',
+                    title: '用户表'
+                },
+                    {
+                    icon: 'el-icon-lx-worktime',
+                    index: '/worktime',
+                    title: '工作时间表'
                 }
             ]
         };

@@ -101,6 +101,26 @@ export default new Router({
                     path: '/donate',
                     component: () => import(/* webpackChunkName: "donate" */ '../components/page/Donate.vue'),
                     meta: { title: '支持作者' }
+                },
+                {
+                    path: '/stock',
+                    component: () => import(/* webpackChunkName: "stock" */ '../components/page/Stock.vue'),
+                    meta: { title: '库存表' }
+                },
+                {
+                    path: '/supplier',
+                    component: () => import(/* webpackChunkName: "supplier" */ '../components/page/Supplier.vue'),
+                    meta: { title: '供应商表' }
+                },
+                {
+                    path: '/user',
+                    component: () => import(/* webpackChunkName: "user" */ '../components/page/User.vue'),
+                    meta: { title: '用户表' }
+                },
+                {
+                    path: '/workday',
+                    component: () => import(/* webpackChunkName: "workday" */ '../components/page/Worktime.vue'),
+                    meta: { title: '供应商表' }
                 }
             ]
         },
