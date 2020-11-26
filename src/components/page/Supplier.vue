@@ -14,14 +14,22 @@
                 class="handle-del mr10"
                 @click="delAllSelection"
             >批量删除</el-button>
-            <el-select v-model="query.type" placeholder="信誉" class="handle-select mr10">
+            <el-select v-model="query.reputation" placeholder="信誉" class="handle-select mr10">
             <el-option key="1" label="好" value="好"></el-option>
             <el-option key="2" label="不好" value="不好"></el-option>
             </el-select>
-            <el-input v-model="query.name" placeholder="供应商名称" class="handle-input mr10"></el-input>
+            <el-input v-model="query.username" placeholder="供应商名称" class="handle-input mr10" ></el-input>
             <el-button type="primary" icon="el-icon-search" >搜索</el-button>
+            <el-button type="primary" icon="el-icon-plus" @click="addSupplier" >添加供应商</el-button>
         </div>
-        <el-table>
+        <el-table
+                :data="tableData"
+                border
+                class="table"
+                ref="multipleTable"
+                header-cell-class-name="table-header"
+                @selection-change="handleSelectionChange"
+        >
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
             <el-table-column prop="name" label="供应商名称"></el-table-column>
@@ -47,7 +55,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <!-- <div class="pagination">
+        <div class="pagination">
             <el-pagination
                 background
                 layout="total, prev, pager, next"
@@ -55,10 +63,11 @@
                 :page-size="query.pageSize"
                 :total="pageTotal"
                 @current-change="handlePageChange"
-            ></el-pagination> -->
-        <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px">
+            ></el-pagination> 
+        </div>
+        <!-- 弹出增加用户编辑框 -->
+        <el-dialog title="添加供应商" :visible.sync="addVisible" width="30%">
+            <el-form ref="form" :model="form" label-width="95px">
                 <el-form-item label="供应商名称">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
@@ -75,7 +84,43 @@
                     <el-input v-model="form.fax"></el-input>
                 </el-form-item>
                 <el-form-item label="信誉">
-                    <el-input v-model="form.reputation"></el-input>
+                    <el-radio-group v-model="form.reputation">
+                        <el-radio label="好"></el-radio>
+                        <el-radio label="不好"></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="欠款">
+                    <el-input v-model="form.loan"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="addVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveAdd">确 定</el-button>
+            </span>
+        </el-dialog>
+        <!-- 编辑弹出框 -->
+        <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
+            <el-form ref="form" :model="form" label-width="95px">
+                <el-form-item label="供应商名称">
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item label="地址">
+                    <el-input v-model="form.address"></el-input>
+                </el-form-item>
+                <el-form-item label="电话">
+                    <el-input v-model="form.phone"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱">
+                    <el-input v-model="form.email"></el-input>
+                </el-form-item>
+                <el-form-item label="传真">
+                    <el-input v-model="form.fax"></el-input>
+                </el-form-item>
+                <el-form-item label="信誉">
+                    <el-radio-group v-model="form.reputation">
+                        <el-radio label="好"></el-radio>
+                        <el-radio label="不好"></el-radio>
+                    </el-radio-group>
                 </el-form-item>
                 <el-form-item label="欠款">
                     <el-input v-model="form.loan"></el-input>
@@ -89,11 +134,31 @@
     </div>
 </template>
 <script>
+import { supplierData } from '../../api/index';
 export default {
     name: 'supplier',
     data() {
         return {
-
+            query: {
+                name: '',
+                address: '',
+                phone:'',
+                email:'',
+                fax:'',
+                reputation:'',
+                loan:'',
+                pageIndex: 1,
+                pageSize: 10
+            },
+            tableData: [],
+            multipleSelection: [],
+            delList: [],
+            addVisible: false,
+            editVisible: false,
+            pageTotal: 0,
+            form: {},
+            idx: -1,
+            id: -1
         };
     },
     created() {
@@ -102,7 +167,7 @@ export default {
     methods: {
         // 获取 easy-mock 的模拟数据
         getData() {
-            fetchData(this.query).then(res => {
+            supplierData(this.query).then(res => {
                 console.log(res);
                 this.tableData = res.list;
                 this.pageTotal = res.pageTotal || 50;
@@ -139,11 +204,21 @@ export default {
             this.$message.error(`删除了${str}`);
             this.multipleSelection = [];
         },
+        addSupplier(){
+            this.addVisible = true; 
+        },
         // 编辑操作
         handleEdit(index, row) {
             this.idx = index;
             this.form = row;
             this.editVisible = true;
+        },
+        //增加用户
+
+        // 保存添加
+        saveAdd() {
+            this.addVisible = false;
+            this.$message.success(`添加成功`);
         },
         // 保存编辑
         saveEdit() {

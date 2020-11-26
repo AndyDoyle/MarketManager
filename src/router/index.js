@@ -118,9 +118,9 @@ export default new Router({
                     meta: { title: '用户表' }
                 },
                 {
-                    path: '/workday',
-                    component: () => import(/* webpackChunkName: "workday" */ '../components/page/Worktime.vue'),
-                    meta: { title: '供应商表' }
+                    path: '/worktime',
+                    component: () => import(/* webpackChunkName: "worktime" */ '../components/page/Worktime.vue'),
+                    meta: { title: '工作时间表' }
                 }
             ]
         },

@@ -151,22 +151,22 @@ export default {
                     title: '支持作者'
                 },
                 {
-                    icon: 'el-icon-lx-stock',
+                    icon: 'el-icon-lx-cascades',
                     index: '/stock',
                     title: '库存表'
                 },
                     {
-                    icon: 'el-icon-lx-supplier',
+                    icon: 'el-icon-lx-cascades',
                     index: '/supplier',
                     title: '供应商表'
                 },
                 {
-                    icon: 'el-icon-lx-user',
+                    icon: 'el-icon-lx-cascades',
                     index: '/user',
                     title: '用户表'
                 },
                     {
-                    icon: 'el-icon-lx-worktime',
+                    icon: 'el-icon-lx-cascades',
                     index: '/worktime',
                     title: '工作时间表'
                 }

@@ -1,0 +1,34 @@
+{
+    "list": [{
+            "id": 1,
+            "name": "旺旺食品厂",
+            "address":"四川省成都市",
+            "phone":"123456789",
+            "email":"586254158@qq.com",
+            "fax":"892856",
+            "reputation":"好",
+            "loan":"100"
+        },
+        {
+            "id": 2,
+            "name": "李四食品厂",
+            "address":"四川省成都市",
+            "phone":"123456789",
+            "email":"586254158@qq.com",
+            "fax":"892856",
+            "reputation":"不好",
+            "loan":"0"
+        },
+        {
+            "id": 3,
+            "name": "张三食品厂",
+            "address":"四川省成都市",
+            "phone":"123456789",
+            "email":"586254158@qq.com",
+            "fax":"892856",
+            "reputation":"好",
+            "loan":"1000"
+        }
+    ],
+    "pageTotal": 3
+}
