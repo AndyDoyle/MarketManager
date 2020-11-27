@@ -15,7 +15,7 @@
                     class="handle-del mr10"
                     @click="delAllSelection"
                 >批量删除</el-button>
-                <el-select v-model="query.typeid" placeholder="商品种类" class="handle-select mr10">
+                <el-select v-model="query.type" placeholder="商品种类" class="handle-select mr10">
                     <el-option key="1" label="零食" value="零食"></el-option>
                     <el-option key="2" label="生活用品" value="生活用品"></el-option>
                     <el-option key="3" label="家用电器" value="家用电器"></el-option>
@@ -23,7 +23,7 @@
                 </el-select>
                 <el-input v-model="query.name" placeholder="商品名称" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
-                <el-button type="primary" icon="el-icon-addGood" @click="addGood">添加</el-button>
+                <el-button type="primary" icon="el-icon-plus" @click="addGood">添加</el-button>
             </div>
             <el-table
                 :data="tableData"
@@ -40,7 +40,7 @@
                 <el-table-column prop="sdate" label="生产日期"></el-table-column>
                 <el-table-column prop="edate" label="有效期至"></el-table-column>
                 <el-table-column prop="price" label="单价" width="100" align="center"></el-table-column>
-                <el-table-column prop="unitid" label="单位" width="100" align="center"></el-table-column>
+                <el-table-column prop="unit" label="单位" width="100" align="center"></el-table-column>
                 <el-table-column prop="other" label="备注"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
@@ -70,6 +70,67 @@
             </div>
         </div>
 
+        <!-- 添加商品弹出框 -->
+        <el-dialog title="添加商品" :visible.sync="addVisible" width="30%">
+            <el-form ref="form" :model="form" label-width="70px">
+                <el-form-item label="商品名称">
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item label="商品种类">
+                    <el-select v-model="form.type" placeholder="请选择">
+                        <el-option key="1" label="零食" value="零食"></el-option>
+                        <el-option key="2" label="生活用品" value="生活用品"></el-option>
+                        <el-option key="3" label="家用电器" value="家用电器"></el-option>
+                        <el-option key="4" label="饮品" value="饮品"></el-option>
+                    </el-select>
+                </el-form-item>
+                 <el-form-item label="生产日期">
+                    <el-col :span="11">
+                            <el-date-picker
+                                type="date"
+                                placeholder="选择日期"
+                                v-model="form.sdate"
+                                value-format="yyyy-MM-dd"
+                                style="width: 100%;"
+                            ></el-date-picker>
+                        </el-col>
+                </el-form-item>
+                <el-form-item label="有效期至">
+                    <el-col :span="11">
+                            <el-date-picker
+                                type="date"
+                                placeholder="选择日期"
+                                v-model="form.edate"
+                                value-format="yyyy-MM-dd"
+                                style="width: 100%;"
+                            ></el-date-picker>
+                        </el-col>
+                </el-form-item>
+                <el-form-item label="单价">
+                    <el-input v-model="form.price"></el-input>
+                </el-form-item>
+                <el-form-item label="单位">
+                    <el-select v-model="form.unit" placeholder="请选择">
+                        <el-option key="1" label="包" value="包"></el-option>
+                        <el-option key="2" label="瓶" value="瓶"></el-option>
+                        <el-option key="3" label="个" value="个"></el-option>
+                        <el-option key="4" label="听" value="听"></el-option>
+                        <el-option key="5" label="件" value="件"></el-option>
+                        <el-option key="6" label="箱" value="箱"></el-option>
+                        <el-option key="7" label="只" value="只"></el-option>
+                        <el-option key="8" label="台" value="台"></el-option>
+                        <el-option key="9" label="袋" value="袋"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="备注">
+                    <el-input v-model="form.other"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="addVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveAdd">确 定</el-button>
+            </span>
+        </el-dialog>
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px">
@@ -110,7 +171,7 @@
                     <el-input v-model="form.price"></el-input>
                 </el-form-item>
                 <el-form-item label="单位">
-                    <el-select v-model="form.unitid" placeholder="请选择">
+                    <el-select v-model="form.unit" placeholder="请选择">
                         <el-option key="1" label="包" value="包"></el-option>
                         <el-option key="2" label="瓶" value="瓶"></el-option>
                         <el-option key="3" label="个" value="个"></el-option>
@@ -119,6 +180,7 @@
                         <el-option key="6" label="箱" value="箱"></el-option>
                         <el-option key="7" label="只" value="只"></el-option>
                         <el-option key="8" label="台" value="台"></el-option>
+                        <el-option key="9" label="袋" value="袋"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注">
@@ -134,20 +196,19 @@
 </template>
 
 <script>
-import { fetchData } from '../../api/index';
+import { goodData } from '../../api/index';
 export default {
-    name: 'Good',
+    name: 'good',
     data() {
         return {
             query: {
-                typeid: '',
                 name: '',
-                type:'',
-                sdate:'',
-                edate:'',
-                price:'',
-                unitid:'',
-                other:'',
+                type: '',
+                sdate: '',
+                edate: '',
+                price: '',
+                unit: '',
+                other: '',
                 pageIndex: 1,
                 pageSize: 10
             },
@@ -155,6 +216,7 @@ export default {
             multipleSelection: [],
             delList: [],
             editVisible: false,
+            addVisible: false,
             pageTotal: 0,
             form: {},
             idx: -1,
@@ -167,7 +229,7 @@ export default {
     methods: {
         // 获取 easy-mock 的模拟数据
         getData() {
-            fetchData(this.query).then(res => {
+            goodData    (this.query).then(res => {
                 console.log(res);
                 this.tableData = res.list;
                 this.pageTotal = res.pageTotal || 50;
@@ -218,10 +280,13 @@ export default {
         },
         // 添加操作
         addGood() {
-            
+            this.addVisible = true;  
         },
         //保存添加
-
+        saveAdd(){
+            this.addVisible = false;
+            this.$message.success(`添加商品成功`);
+        },
         // 分页导航
         handlePageChange(val) {
             this.$set(this.query, 'pageIndex', val);
