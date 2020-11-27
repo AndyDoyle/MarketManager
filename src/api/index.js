@@ -35,3 +35,10 @@ export const stockData = query => {
         params: query
     });
 };
+export const goodData = query => {
+    return request({
+        url: './good.json',
+        method: 'get',
+        params: query
+    });
+};

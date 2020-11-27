@@ -155,7 +155,7 @@ export default {
                     index: '/stock',
                     title: '库存表'
                 },
-                    {
+                {
                     icon: 'el-icon-lx-cascades',
                     index: '/supplier',
                     title: '供应商表'
@@ -165,10 +165,15 @@ export default {
                     index: '/user',
                     title: '用户表'
                 },
-                    {
+                {
                     icon: 'el-icon-lx-cascades',
                     index: '/worktime',
                     title: '工作时间表'
+                },
+                {
+                    icon: 'el-icon-lx-cascades',
+                    index: '/good',
+                    title: '商品表单'
                 }
             ]
         };

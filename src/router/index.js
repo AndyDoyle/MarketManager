@@ -121,6 +121,11 @@ export default new Router({
                     path: '/worktime',
                     component: () => import(/* webpackChunkName: "worktime" */ '../components/page/Worktime.vue'),
                     meta: { title: '工作时间表' }
+                },
+                {
+                    path: '/good',
+                    component: () => import(/*webpackChunkName: "good" */ '../components/page/Good.vue'),
+                    meta: { title: '商品表单'}
                 }
             ]
         },
