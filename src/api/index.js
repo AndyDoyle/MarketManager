@@ -42,3 +42,24 @@ export const goodData = query => {
         params: query
     });
 };
+export const goodinData = query => {
+    return request({
+        url: './goodin.json',
+        method: 'get',
+        params: query
+    });
+};
+export const goodoutData = query => {
+    return request({
+        url: './goodout.json',
+        method: 'get',
+        params: query
+    });
+};
+export const ykData = query => {
+    return request({
+        url: './inventory.json',
+        method: 'get',
+        params: query
+    });
+};

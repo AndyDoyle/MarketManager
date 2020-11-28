@@ -1,0 +1,50 @@
+{
+    "list" : [
+        {
+            "id": 1,
+            "suplliername": "旺旺食品厂",
+            "supllierid": "10000000",
+            "goodname": "旺仔小馒头",
+            "goodid": "5",
+            "date": "2020-11-27",
+            "quantity": "500",
+            "unit": "包",
+            "unitid": "1",
+            "price": "4",
+            "paid": "2000",
+            "userid": "12000001",
+            "other": "出库成功"
+        },
+        {
+            "id": 2,
+            "suplliername": "旺旺食品厂",
+            "supllierid": "10000000",
+            "goodname": "旺旺雪饼",
+            "goodid": "1",
+            "date": "2020-11-27",
+            "quantity": "800",
+            "unit": "包",
+            "unitid": "1",
+            "price": "3",
+            "paid": "2400",
+            "userid": "12000002",
+            "other": "出库成功"
+        },
+        {
+            "id": 3,
+            "suplliername": "可口可乐有限公司",
+            "supllierid": "10000001",
+            "goodname": "可口可乐", 
+            "goodid": "2",
+            "date": "2020-11-27",
+            "quantity": "500",
+            "unit": "瓶",
+            "unitid": "2",
+            "price": "3",
+            "paid": "1500",
+            "userid": "12000003",
+            "other": "出库失败"
+        }
+    ],
+    "pageTotal": 3
+}

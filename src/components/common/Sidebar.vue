@@ -174,6 +174,21 @@ export default {
                     icon: 'el-icon-lx-cascades',
                     index: '/good',
                     title: '商品表单'
+                },
+                {
+                    icon: 'el-icon-lx-cascades',
+                    index: '/goodin',
+                    title: '商品入库单'
+                },
+                {
+                    icon: 'el-icon-lx-cascades',
+                    index: '/goodout',
+                    title: '商品出库单'
+                },
+                {
+                    icon: 'el-icon-lx-cascades',
+                    index: '/inventory',
+                    title: '盘存表单'
                 }
             ]
         };

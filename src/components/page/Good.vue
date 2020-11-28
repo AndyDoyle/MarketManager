@@ -84,7 +84,7 @@
                         <el-option key="4" label="饮品" value="饮品"></el-option>
                     </el-select>
                 </el-form-item>
-                 <el-form-item label="生产日期">
+                <el-form-item label="生产日期">
                     <el-col :span="11">
                             <el-date-picker
                                 type="date"
@@ -127,7 +127,7 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="addVisible = false">取 消</el-button>
+                <el-button @click="cancelAdd">取 消</el-button>
                 <el-button type="primary" @click="saveAdd">确 定</el-button>
             </span>
         </el-dialog>
@@ -188,7 +188,7 @@
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取 消</el-button>
+                <el-button @click="cancelEdit">取 消</el-button>
                 <el-button type="primary" @click="saveEdit">确 定</el-button>
             </span>
         </el-dialog>
@@ -202,12 +202,15 @@ export default {
     data() {
         return {
             query: {
+                goodid:'',
                 name: '',
                 type: '',
+                typeid:'',
                 sdate: '',
                 edate: '',
                 price: '',
                 unit: '',
+                unitid:'',
                 other: '',
                 pageIndex: 1,
                 pageSize: 10
@@ -286,6 +289,16 @@ export default {
         saveAdd(){
             this.addVisible = false;
             this.$message.success(`添加商品成功`);
+        },
+        //取消编辑
+        cancelEdit() {
+            this.editVisible = false;
+            this.$message.error(`取消编辑`);
+        },
+        //取消添加
+        cancelAdd() {
+            this.addVisible = false;
+            this.$message.error(`取消添加`);
         },
         // 分页导航
         handlePageChange(val) {

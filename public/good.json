@@ -3,40 +3,48 @@
             "id": 1,
             "name": "旺旺雪饼",
             "type": "零食",
+            "typeid": "1",
             "sdate":"2020-11-01",
             "edate":"2020-11-01",
             "price":"12",
             "unit":"包",
+            "unitid": "1",
             "other":""
         },
         {
             "id": 2,
             "name": "可口可乐",
             "type": "饮品",
+            "typeid": "4",
             "sdate":"2020-11-01",
             "edate":"2020-11-01",
             "price":"3",
             "unit":"瓶",
+            "unitid": "2",
             "other":""
         },
         {
             "id": 3,
             "name": "吹风机",
             "type": "家用电器",
+            "typeid": "3",
             "sdate":"2020-11-01",
             "edate":"2020-11-01",
             "price":"140",
             "unit":"只",
+            "unitid": "7",
             "other":""
         },
         {
             "id": 4,
             "name": "某某牌洗衣液",
             "type": "生活用品",
+            "typeid": "2",
             "sdate":"2020-11-01",
             "edate":"2020-11-01",
             "price":"70",
             "unit":"袋",
+            "unitid": "9",
             "other":""
         }
     ],
