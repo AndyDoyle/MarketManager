@@ -1,0 +1,65 @@
+{
+    "list" : [
+        {
+            "id": 1,
+            "goodname": "旺旺雪饼",
+            "goodid": "1",
+            "date": "2020-11-27",
+            "type": "零食",
+            "typeid": "1",
+            "quantity": "10000",
+            "newquantity": "9999",
+            "unit": "包",
+            "unitid": "1",
+            "yk": "-1",
+            "user": "张三",
+            "userid": "11000001"
+        },
+        {
+            "id": 2,
+            "goodname": "可口可乐",
+            "goodid": "2",
+            "date": "2020-11-27",
+            "type": "饮品",
+            "typeid": "4",
+            "quantity": "10000",
+            "newquantity": "10000",
+            "unit": "瓶",
+            "unitid": "3",
+            "yk": "0",
+            "user": "李四",
+            "userid": "11000002"
+        },
+        {
+            "id": 1,
+            "goodname": "吹风机",
+            "goodid": "3",
+            "date": "2020-11-27",
+            "type": "家用电器",
+            "typeid": "3",
+            "quantity": "6000",
+            "newquantity": "6000",
+            "unit": "只",
+            "unitid": "1",
+            "yk": "0",
+            "user": "王五",
+            "userid": "11000001"
+        },
+        {
+            "id": 1,
+            "goodname": "某某牌洗衣液",
+            "goodid": "1",
+            "date": "2020-11-27",
+            "type": "生活用品",
+            "typeid": "1",
+            "quantity": "800",
+            "newquantity": "803",
+            "unit": "袋",
+            "unitid": "1",
+            "yk": "3",
+            "user": "小明",
+            "userid": "11000001"
+        }
+    ],
+    "pageTotal": 4
+}
