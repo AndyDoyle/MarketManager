@@ -163,7 +163,22 @@ export default {
                 {
                     icon: 'el-icon-lx-cascades',
                     index: '/user',
-                    title: '用户表'
+                    title: '用户管理'
+                },
+                {
+                    icon: 'el-icon-lx-cascades',
+                    index: '/user',
+                    title: '权限管理',
+                    subs: [
+                    {
+                        index: 'roles',
+                        title: '角色列表'
+                    },
+                    {
+                        index: 'rights',
+                        title: '权限列表'
+                    }
+                ]
                 },
                 {
                     icon: 'el-icon-lx-cascades',

@@ -115,7 +115,17 @@ export default new Router({
                 {
                     path: '/user',
                     component: () => import(/* webpackChunkName: "user" */ '../components/page/User.vue'),
-                    meta: { title: '用户表' }
+                    meta: { title: '用户管理' }
+                },
+                {
+                    path: '/roles',
+                    component: () => import(/* webpackChunkName: "user" */ '../components/page/Roles.vue'),
+                    meta: { title: '角色列表' }
+                },
+                {
+                    path: '/rights',
+                    component: () => import(/* webpackChunkName: "user" */ '../components/page/Rights.vue'),
+                    meta: { title: '权限列表' }
                 },
                 {
                     path: '/worktime',
