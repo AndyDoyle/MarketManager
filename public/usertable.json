@@ -4,21 +4,24 @@
             "username": "张三",
             "password":"1234433432",
             "phone":"123123123",
-            "sex":"男"
+            "sex":"男",
+            "role":"营业员"
         },
         {
             "id": 2,
             "username": "李四",
             "password":"1234433432",
             "phone":"123123123",
-            "sex":"男"
+            "sex":"男",
+            "role":"库管员"
         },
         {
             "id": 3,
             "username": "王五",
             "password":"1234433432",
             "phone":"123123123",
-            "sex":"女"
+            "sex":"女",
+            "role":"营业员"
         }
     ],
     "pageTotal": 3

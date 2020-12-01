@@ -204,7 +204,9 @@ export default {
         // 保存添加
         saveAdd() {
             this.addVisible = false;
+            this.worktimeData;
             this.$message.success(`添加成功`);
+
         },
         // 保存编辑
         saveEdit() {

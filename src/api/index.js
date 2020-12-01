@@ -63,3 +63,10 @@ export const ykData = query => {
         params: query
     });
 };
+export const roleData = query => {
+    return request({
+        url: './role.json',
+        method: 'get',
+        params: query
+    });
+};
