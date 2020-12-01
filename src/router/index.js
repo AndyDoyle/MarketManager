@@ -97,11 +97,11 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "403" */ '../components/page/403.vue'),
                     meta: { title: '403' }
                 },
-                {
-                    path: '/donate',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/Donate.vue'),
-                    meta: { title: '支持作者' }
-                },
+                // {
+                //     path: '/donate',
+                //     component: () => import(/* webpackChunkName: "donate" */ '../components/page/Donate.vue'),
+                //     meta: { title: '支持作者' }
+                // },
                 {
                     path: '/stock',
                     component: () => import(/* webpackChunkName: "stock" */ '../components/page/Stock.vue'),
@@ -119,12 +119,12 @@ export default new Router({
                 },
                 {
                     path: '/roles',
-                    component: () => import(/* webpackChunkName: "user" */ '../components/page/Roles.vue'),
+                    component: () => import(/* webpackChunkName: "role" */ '../components/page/Roles.vue'),
                     meta: { title: '角色列表' }
                 },
                 {
                     path: '/rights',
-                    component: () => import(/* webpackChunkName: "user" */ '../components/page/Rights.vue'),
+                    component: () => import(/* webpackChunkName: "right" */ '../components/page/Rights.vue'),
                     meta: { title: '权限列表' }
                 },
                 {

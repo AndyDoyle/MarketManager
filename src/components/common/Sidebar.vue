@@ -145,11 +145,11 @@ export default {
                         }
                     ]
                 },
-                {
-                    icon: 'el-icon-lx-redpacket_fill',
-                    index: '/donate',
-                    title: '支持作者'
-                },
+                // {
+                //     icon: 'el-icon-lx-redpacket_fill',
+                //     index: '/donate',
+                //     title: '支持作者'
+                // },
                 {
                     icon: 'el-icon-lx-cascades',
                     index: '/stock',

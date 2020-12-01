@@ -18,7 +18,7 @@
 
       <!-- 角色列表区域 -->
       <el-table :data="rolelist" border stripe>
-        <!-- 展开列 -->
+        <!-- 展开列 --> 
         <el-table-column type="expand">
           <template slot-scope="scope">
             <el-row :class="['bdbottom', i1 === 0 ? 'bdtop' : '', 'vcenter']" v-for="(item1, i1) in scope.row.children" :key="item1.id">
@@ -74,6 +74,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -100,7 +101,7 @@ export default {
   methods: {
     // 获取所有角色的列表
     async getRolesList() {
-      const { data: res } = await this.$http.get('roles')
+      const { data: res } = await this.$http.get('role')
 
       if (res.meta.status !== 200) {
         return this.$message.error('获取角色列表失败！')
