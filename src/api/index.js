@@ -21,6 +21,13 @@ export const worktimeData = query => {
         params: query
     });
 };
+export const RightsData = query => {
+    return request({
+        url: 'admin/permission',
+        method: 'get',
+        params: query
+    });
+};
 export const supplierData = query => {
     return request({
         url: './supplier.json',
