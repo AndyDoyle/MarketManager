@@ -36,7 +36,6 @@
             <el-table-column prop="password" label="用户密码"></el-table-column>
             <el-table-column prop="phone" label="用户电话"></el-table-column>
             <el-table-column prop="sex" label="性别"></el-table-column>
-            <el-table-column prop="role" label="角色"></el-table-column>
             <el-table-column label="操作" width="180" align="center">
             <template slot-scope="scope">
                     <el-button
@@ -81,12 +80,6 @@
                         <el-radio label="女"></el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="角色">
-                    <el-select v-model="query.role" placeholder="身份" class="handle-select mr10">
-                        <el-option key="1" label="营业员" value="营业员"></el-option>
-                        <el-option key="2" label="库管员" value="库管员"></el-option>
-                    </el-select>
-                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="addVisible = false">取 消</el-button>
@@ -111,12 +104,6 @@
                         <el-radio label="女"></el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="角色">
-                    <el-select v-model="form.role" class="handle-select mr10">
-                        <el-option key="1" label="营业员" value="营业员"></el-option>
-                        <el-option key="2" label="库管员" value="库管员"></el-option>
-                    </el-select>
-                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editVisible = false">取 消</el-button>
@@ -127,7 +114,6 @@
 </template>
 <script>
 import { userData } from '../../api/index';
-
 export default {
     name: 'user',
     data() {
@@ -137,7 +123,6 @@ export default {
                 password: '',
                 phone:'',
                 sex:'',
-                role:'',
                 pageIndex: 1,
                 pageSize: 10
             },
