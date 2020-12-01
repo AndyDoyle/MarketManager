@@ -66,7 +66,7 @@
         </div>
 
         <!-- 查看盘点记录弹出框 -->
-        <el-dialog title="添加商品" :visible.sync="editVisible" width="100%">
+        <el-dialog title="盘存记录" :visible.sync="editVisible" width="70%">
             <el-form ref="form" :model="form" label-width="70%">
             <el-table
                 :data="tableData"
@@ -96,7 +96,7 @@
             </span>
         </el-dialog>
         <!-- 添加盘点记录弹出框 -->
-        <el-dialog title="编辑" :visible.sync="addVisible" width="30%">
+        <el-dialog title="添加记录" :visible.sync="addVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px">
                 <el-form-item label="盘点日期">
                     <el-col :span="11">
