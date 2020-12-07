@@ -1,15 +1,18 @@
+// http://119.29.40.206:8081
 module.exports = {
     publicPath: './',
-    // baseUrl: './',
     assetsDir: 'static',
     productionSourceMap: false,
     devServer: {
+        host: 'localhost',
+        port: 8080,  
         proxy: {
-            '/admin':{
-                target:'http://119.29.40.206:8081/admin',
+            '/':{
+                target:'http://119.29.40.206:8081',
+                ws:true,
                 changeOrigin:true,
                 pathRewrite:{
-                    '^/admin':''
+                    '^/':''
                 }
             }
         }

@@ -2,24 +2,19 @@
     <div class="login-wrap">
         <div class="ms-login">
             <div class="ms-title">超市后台管理系统</div>
-            <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
+            <el-form :model="param" :rules="rules" ref="loginref" label-width="0px" class="ms-content">
                 <el-form-item prop="phone">
-                    <el-input v-model="param.phone" placeholder="phone">
+                    <el-input v-model="param.phone" placeholder="账号/用户名">
                         <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
-                    <el-input
-                        type="password"
-                        placeholder="password"
-                        v-model="param.password"
-                        @keyup.enter.native="submitForm()"
-                    >
+                    <el-input type="password" placeholder="密码" v-model="param.password" @keyup.enter.native="login()">
                         <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
-                    <el-button type="primary" @click="submitForm()">登录</el-button>
+                    <el-button type="primary" @click="login()">登录</el-button>
                 </div>
                 <p class="login-tips">Tips : 用户名和密码随便填。</p>
             </el-form>
@@ -29,62 +24,52 @@
 
 <script>
 export default {
-    data: function() {
+    data() {
         return {
             param: {
                 phone: '11111111',
                 password: '12345',
             },
             rules: {
-                phone: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+                phone: [{ required: true, message: '请输入用户名', trigger: 'blur' },
+                {min: 6, max: 18,message: '请输入6到18位账号'}],
                 password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
             },
         };
     },
     methods: {       
-        // submitClick: function () {
-        // var _this = this;
-        // this.loading = true;
-        // postRequest('/login', {
-        //   phone: this.loginForm.phone,
-        //   password: this.loginForm.password
-        // }).then(resp=> {
-        //   _this.loading = false;
-        //   if (resp.status == 200) {
-        //     //成功
-        //     var json = resp.data;
-        //     if (json.status == 'success') {
-        //       _this.$router.replace({path: '/home'});
-        //     } else {
-        //       _this.$alert('登录失败!', '失败!');
-        //     }
-        //   } else {
-        //     //失败
-        //     _this.$alert('登录失败!', '失败!');
-        //   }
-        // }, resp=> {
-        //   _this.loading = false;
-        //   _this.$alert('找不到服务器⊙﹏⊙∥!', '失败!');
-        // });
-        // }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-        submitForm() {
-            this.$refs.login.validate(valid => {
-                if (valid) {
-                    this.$message.success('登录成功');
-                    localStorage.setItem('ms_username', this.param.phone);
-                    this.$router.push('/');
-                } else {
-                    this.$message.error('请输入账号和密码');
-                    console.log('error submit!!');
-                    return false;
-                }
-            });
-        },
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+        login(){
+        this.axios({
+            url:'login',
+            method:'post',
+            params:this.param,
+            headers:{
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(res=>{
+            console.log(res);
+            // console.log(this.param);
+            // console.log(res.headers);
+            //获取后端token
+            this.userToken = res.headers.authorization;
+            //储存到vuex
+            window.sessionStorage.setItem('token', this.userToken);
+            this.$message.success("登陆成功");
+            this.$router.push({ path:'/dashboard'})
+        }).catch(err=>{
+            console.log(err);
+            //失败后删除token
+            window.sessionStorage.removeItem('token');
+            this.$message.error("登录失败");
+        });
+    },
+
     },
 };
 </script>
 
-<style scoped>
+<style lang='less' scoped>
 .login-wrap {
     position: relative;
     width: 100%;

@@ -9,23 +9,15 @@ import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
-
 // import NProgress from 'nprogress'
 // import 'nprogress/nprogress.css'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
-
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios,axios);
-
 // // 配置请求的跟路径
-// axios.defaults.baseURL = '/admin'
+// var axios = require('axios')
 // // 在 request 拦截器中，展示进度条 NProgress.start()
 // axios.interceptors.request.use(config => {
-//   // console.log(config)
-//   NProgress.start()
-//   config.headers.Authorization = window.sessionStorage.getItem('token')
+// // console.log(config)
+// //   NProgress.start()
+//   config.headers.authorization = window.sessionStorage.getItem('token')
 //   // 在最后必须 return config
 //   return config
 // })
@@ -34,7 +26,12 @@ Vue.use(VueAxios,axios);
 //   NProgress.done()
 //   return config
 // })
-// Vue.prototype.$http = axios
+
+import axios from 'axios'
+axios.defaults.baseURL = 'http://119.29.40.206:8081'
+Vue.prototype.$http = axios
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios,axios);
 
 Vue.config.productionTip = false;
 Vue.use(VueI18n);

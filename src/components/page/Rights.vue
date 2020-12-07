@@ -9,8 +9,8 @@
         <!-- 卡片视图 -->
         <el-card>
         <el-table :data="tableData" border stripe>
-            <el-table-column type="index"></el-table-column>
-            <el-table-column label="权限名称" prop="name"></el-table-column>
+            <el-table-column label="序号" width=500 prop="id"></el-table-column>
+            <el-table-column label="权限名称" prop="name" ></el-table-column>
             <!-- <el-table-column label="路径" prop="method"></el-table-column> -->
             <!-- <el-table-column label="权限等级" prop="level"> 
             <template slot-scope="scope">
@@ -27,35 +27,32 @@
 <script>
 export default {
     name:'',
-    mounted() {
+    created() {
         this.getRightsList();
     },
     data() {
       return {
-          list: {
-              name: '',
-          },
-          tableData: [],
-      };
-  },
-//   created() {
-//     // 获取所有的权限
-//     this.getRightsList()
-//   },
-  methods: {
-    getRightsList() {
+            tableData: [],
+        };
+    },
+    // created() {
+    //     // 获取所有的权限
+    //     this.getRightsList()
+    // },
+    methods: {
+        getRightsList() {
             this.axios({
                 method:"get",
-                url:"permission",
-                //headers: {'Authorization': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzM4NCJ9.eyJpZCI6IjJmODMxYmIzLTYwNDktNDYwNy05Y2YzLTMxMGM0YmQyMjY0YSIsImV4cCI6MTYwNzAwNzEwNn0.rzb2oMNG5wrtMr0CGArKZA-qzxqP0E5Xin7I1Oseinms1QzZmpKm7ppVoTTFbYdV'}
+                url:"admin/permission",
+                headers:{'authorization':window.sessionStorage.getItem('token')}
             })
-            .then(res => {
+            .then(res => { 
                 console.log(res)
                 console.log(res.data)
-                this.list = res.data
+                this.tableData = res.data
             })
-            }
-  }
+        }
+    }
 }
 </script>
 

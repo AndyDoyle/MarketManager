@@ -48,9 +48,9 @@
           </template>
         </el-table-column>
         <!-- 索引列 -->
-        <el-table-column type="index"></el-table-column>
-        <el-table-column label="角色名称" prop="roleName"></el-table-column>
-        <el-table-column label="角色描述" prop="roleDesc"></el-table-column>
+        <el-table-column type="index" width=300></el-table-column>
+        <el-table-column label="角色名称" prop="name"></el-table-column>
+        <el-table-column label="角色描述" prop="describe"></el-table-column>
         <el-table-column label="操作" width="300px">
           <template slot-scope="scope">
             <el-button size="mini" type="primary" icon="el-icon-edit">编辑</el-button>
@@ -84,11 +84,6 @@ export default {
       setRightDialogVisible: false,
       // 所有权限的数据
       rightslist: [],
-      // 树形控件的属性绑定对象
-      treeProps: {
-        label: 'authName',
-        children: 'children'
-      },
       // 默认选中的节点Id值数组
       defKeys: [],
       // 当前即将分配权限的角色id
@@ -100,16 +95,17 @@ export default {
   },
   methods: {
     // 获取所有角色的列表
-    async getRolesList() {
-      const { data: res } = await this.$http.get('role')
-
-      if (res.meta.status !== 200) {
-        return this.$message.error('获取角色列表失败！')
-      }
-
-      this.rolelist = res.data
-
-      console.log(this.rolelist)
+    getRolesList() {
+        this.axios({
+            method:"get",
+            url:"admin/role",
+            headers:{'authorization':window.sessionStorage.getItem('token')}
+        })
+        .then(res => { 
+            console.log(res)
+            console.log(res.data)
+            this.rolelist = res.data
+        })
     },
     // 根据Id删除对应的权限
     async removeRightById(role, rightId) {
@@ -143,7 +139,8 @@ export default {
     async showSetRightDialog(role) {
       this.roleId = role.id
       // 获取所有权限的数据
-      const { data: res } = await this.$http.get('rights/tree')
+      
+      const { data: res } = await this.$http.get('admin/permission')
 
       if (res.meta.status !== 200) {
         return this.$message.error('获取权限数据失败！')

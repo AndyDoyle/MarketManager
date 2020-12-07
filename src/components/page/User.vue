@@ -143,11 +143,18 @@ export default {
     methods: {
         // 获取 easy-mock 的模拟数据
         getData() {
-            userData(this.query).then(res => {
-                console.log(res);
-                this.tableData = res.list;
+            this.axios({
+                method:"get",
+                url:"admin/permission",
+                headers:{'authorization':window.sessionStorage.getItem('token')}
+            })
+            .then(res => { 
+                console.log(res)
+                console.log(res.data)
+                this.tableData = res.data
+            })
                 this.pageTotal = res.pageTotal || 50;
-            });
+            
         },
         // 触发搜索按钮
         handleSearch() {

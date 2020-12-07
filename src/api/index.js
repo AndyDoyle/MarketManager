@@ -9,7 +9,7 @@ export const fetchData = query => {
 };
 export const userData = query => {
     return request({
-        url: './usertable.json',
+        url: 'admin/user',
         method: 'get',
         params: query
     });
