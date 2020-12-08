@@ -37,8 +37,8 @@
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
                 <el-table-column prop="name" label="商品名称"></el-table-column>
                 <el-table-column prop="type" label="商品种类" width="150" align="center"></el-table-column>
-                <el-table-column prop="sdate" value-format="yyyy-MM-dd" label="生产日期"></el-table-column>
-                <el-table-column prop="edate" value-format="yyyy-MM-dd" label="有效期至"></el-table-column>
+                <el-table-column prop="sdate" label="生产日期" :formatter="formatDate"></el-table-column>
+                <el-table-column prop="edate" label="有效期至" :formatter="formatDate"></el-table-column>
                 <el-table-column prop="price" label="单价" width="100" align="center"></el-table-column>
                 <el-table-column prop="unit" label="单位" width="100" align="center"></el-table-column>
                 <el-table-column prop="other" label="备注"></el-table-column>
@@ -230,7 +230,17 @@ export default {
         this.getData();
     },
     methods: {
-        // 获取 easy-mock 的模拟数据
+        //格式化时间方法区
+        formatDate(row, column) {
+            // 获取单元格数据
+            let data = row[column.property]
+            if(data == null) {
+                return null
+            }
+            let dt = new Date(data)
+                return dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate()
+        },
+        // 获取数据
         getData() {            
         this.axios({
             method:"get",
