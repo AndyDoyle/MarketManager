@@ -63,8 +63,19 @@
 
     <!-- 分配权限的对话框 -->
     <el-dialog title="分配权限" :visible.sync="setRightDialogVisible" width="50%" @close="setRightDialogClosed">
+        <el-form :model="rightslist">
+          <el-form-item label="活动名称"  width="200">
+            <el-input v-model="rightslist.name" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="活动区域"  width="200">
+            <el-select v-model="rightslist.id" placeholder="请选择活动区域">
+              <!-- <el-option label="区域一" value="shanghai"></el-option>
+              <el-option label="区域二" value="beijing"></el-option> -->
+            </el-select>
+          </el-form-item>
+        </el-form>
       <!-- 树形控件 -->
-      <el-tree :data="rightslist" :props="treeProps" show-checkbox node-key="id" default-expand-all :default-checked-keys="defKeys" ref="treeRef"></el-tree>
+      <!-- <el-tree :data="rightslist" show-checkbox node-key="id" default-expand-all :default-checked-keys="defKeys" ref="rightRef"></el-tree> -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="allotRights">确 定</el-button>
@@ -136,34 +147,37 @@ export default {
       role.children = res.data
     },
     // 展示分配权限的对话框
-    async showSetRightDialog(role) {
-      this.roleId = role.id
+    async showSetRightDialog(rolelist) {
+      this.roleId = rolelist.id
       // 获取所有权限的数据
-      
-      const { data: res } = await this.$http.get('admin/permission')
+      this.axios({
+          method:"get",
+          url:"admin/permission",
+          headers:{'authorization':window.sessionStorage.getItem('token')}
+      })
+      .then(res => { 
+          console.log(res)
+          // 把获取到的权限数据保存到 data 中
+          this.rightslist = res.data
+          console.log(this.rightslist)
+      })
 
-      if (res.meta.status !== 200) {
+      if (res.status !== 200) {
         return this.$message.error('获取权限数据失败！')
       }
-
-      // 把获取到的权限数据保存到 data 中
-      this.rightslist = res.data
-      console.log(this.rightslist)
-
       // 递归获取三级节点的Id
-      this.getLeafKeys(role, this.defKeys)
-
+      // this.getLeafKeys(role, this.defKeys)
       this.setRightDialogVisible = true
     },
     // 通过递归的形式，获取角色下所有三级权限的id，并保存到 defKeys 数组中
-    getLeafKeys(node, arr) {
-      // 如果当前 node 节点不包含 children 属性，则是三级节点
-      if (!node.children) {
-        return arr.push(node.id)
-      }
+    // getLeafKeys(node, arr) {
+    //   // 如果当前 node 节点不包含 children 属性，则是三级节点
+    //   if (!node.children) {
+    //     return arr.push(node.id)
+    //   }
 
-      node.children.forEach(item => this.getLeafKeys(item, arr))
-    },
+    //   node.children.forEach(item => this.getLeafKeys(item, arr))
+    // },
     // 监听分配权限对话框的关闭事件
     setRightDialogClosed() {
       this.defKeys = []
@@ -171,8 +185,8 @@ export default {
     // 点击为角色分配权限
     async allotRights() {
       const keys = [
-        ...this.$refs.treeRef.getCheckedKeys(),
-        ...this.$refs.treeRef.getHalfCheckedKeys()
+        ...this.$refs.rightRef.getCheckedKeys(),
+        ...this.$refs.rightRef.getHalfCheckedKeys()
       ]
 
       const idStr = keys.join(',')

@@ -31,7 +31,7 @@
                 @selection-change="handleSelectionChange"
         >
             <el-table-column type="selection" width="55" align="center"></el-table-column>
-            <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
+            <el-table-column prop="id" label="ID" width="120" align="center"></el-table-column>
             <el-table-column prop="username" label="用户名称"></el-table-column>
             <el-table-column prop="password" label="用户密码"></el-table-column>
             <el-table-column prop="phone" label="用户电话"></el-table-column>
@@ -145,7 +145,7 @@ export default {
         getData() {
             this.axios({
                 method:"get",
-                url:"admin/permission",
+                url:"admin/user",
                 headers:{'authorization':window.sessionStorage.getItem('token')}
             })
             .then(res => { 

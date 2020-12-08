@@ -3,7 +3,7 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
     routes: [
         {
             path: '/',
@@ -164,4 +164,14 @@ export default new Router({
             redirect: '/404'
         }
     ]
-});
+})
+//挂载路由导航守卫
+router.beforeEach((to,from,next) => {
+    if(to.path=='/login') return next();
+    const take = window.sessionStorage.getItem('token');
+    if(!take) return next('login');
+    next();
+})
+
+export default router
+

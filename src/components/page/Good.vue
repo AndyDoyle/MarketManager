@@ -37,8 +37,8 @@
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
                 <el-table-column prop="name" label="商品名称"></el-table-column>
                 <el-table-column prop="type" label="商品种类" width="150" align="center"></el-table-column>
-                <el-table-column prop="sdate" label="生产日期"></el-table-column>
-                <el-table-column prop="edate" label="有效期至"></el-table-column>
+                <el-table-column prop="sdate" value-format="yyyy-MM-dd" label="生产日期"></el-table-column>
+                <el-table-column prop="edate" value-format="yyyy-MM-dd" label="有效期至"></el-table-column>
                 <el-table-column prop="price" label="单价" width="100" align="center"></el-table-column>
                 <el-table-column prop="unit" label="单位" width="100" align="center"></el-table-column>
                 <el-table-column prop="other" label="备注"></el-table-column>
@@ -142,7 +142,7 @@
                         <el-option key="1" label="零食" value="零食"></el-option>
                         <el-option key="2" label="生活用品" value="生活用品"></el-option>
                         <el-option key="3" label="家用电器" value="家用电器"></el-option>
-                        <el-option key="4" label="饮品" value="饮品"></el-option>
+                        <el-option key="4" label="饮品" value="饮品"></el-option> 
                     </el-select>
                 </el-form-item>
                  <el-form-item label="生产日期">
@@ -150,7 +150,7 @@
                             <el-date-picker
                                 type="date"
                                 placeholder="选择日期"
-                                v-model="form.sdate"
+                                v-model="tableData.sdate"
                                 value-format="yyyy-MM-dd"
                                 style="width: 100%;"
                             ></el-date-picker>
@@ -161,7 +161,7 @@
                             <el-date-picker
                                 type="date"
                                 placeholder="选择日期"
-                                v-model="form.edate"
+                                v-model="tableData.edate"
                                 value-format="yyyy-MM-dd"
                                 style="width: 100%;"
                             ></el-date-picker>
@@ -220,7 +220,7 @@ export default {
             delList: [],
             editVisible: false,
             addVisible: false,
-            pageTotal: 0,
+            pageTotal: 1,
             form: {},
             idx: -1,
             id: -1
@@ -231,12 +231,17 @@ export default {
     },
     methods: {
         // 获取 easy-mock 的模拟数据
-        getData() {
-            goodData    (this.query).then(res => {
-                console.log(res);
-                this.tableData = res.list;
-                this.pageTotal = res.pageTotal || 50;
-            });
+        getData() {            
+        this.axios({
+            method:"get",
+            url:"good",
+            headers:{'authorization':window.sessionStorage.getItem('token')}
+        })
+        .then(res => { 
+            console.log(res)
+            console.log(res.data)
+            this.tableData = res.data
+        })
         },
         // 触发搜索按钮
         handleSearch() {

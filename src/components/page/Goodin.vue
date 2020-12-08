@@ -191,7 +191,7 @@ export default {
             delList: [],
             editVisible: false,
             addVisible: false,
-            pageTotal: 0,
+            pageTotal: 1,
             form: {},
             idx: -1,
             id: -1
@@ -202,12 +202,17 @@ export default {
     },
     methods: {
         // 获取 easy-mock 的模拟数据
-        getData() {
-            goodinData(this.query).then(res => {
-                console.log(res);
-                this.tableData = res.list;
-                this.pageTotal = res.pageTotal || 50;
-            });
+        getData() {            
+        this.axios({
+            method:"get",
+            url:"goodin",
+            headers:{'authorization':window.sessionStorage.getItem('token')}
+        })
+        .then(res => { 
+            console.log(res)
+            console.log(res.data)
+            this.tableData = res.data
+        })
         },
         // 触发搜索按钮
         handleSearch() {

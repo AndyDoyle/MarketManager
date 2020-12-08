@@ -123,7 +123,7 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px">
-                <el-form-item label="供应商名称">
+                <el-form-item label="操作人">
                     <el-input v-model="form.suplliername"></el-input>
                 </el-form-item>
                 <el-form-item label="商品名称">
@@ -202,12 +202,17 @@ export default {
     },
     methods: {
         // 获取 easy-mock 的模拟数据
-        getData() {
-            goodoutData(this.query).then(res => {
-                console.log(res);
-                this.tableData = res.list;
-                this.pageTotal = res.pageTotal || 50;
-            });
+        getData(){            
+        this.axios({
+            method:"get",
+            url:"goodout",
+            headers:{'authorization':window.sessionStorage.getItem('token')}
+        })
+        .then(res => { 
+            console.log(res)
+            console.log(res.data)
+            this.tableData = res.data
+        })
         },
         // 触发搜索按钮
         handleSearch() {
