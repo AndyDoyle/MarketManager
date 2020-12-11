@@ -61,150 +61,193 @@ export default {
                     index: 'dashboard',
                     title: '系统首页'
                 },
-                {
-                    icon: 'el-icon-lx-cascades',
-                    index: 'table',
-                    title: '基础表格'
-                },
-                {
-                    icon: 'el-icon-lx-copy',
-                    index: 'tabs',
-                    title: 'tab选项卡'
-                },
-                {
-                    icon: 'el-icon-lx-calendar',
-                    index: '3',
-                    title: '表单相关',
-                    subs: [
-                        {
-                            index: 'form',
-                            title: '基本表单'
-                        },
-                        {
-                            index: '3-2',
-                            title: '三级菜单',
-                            subs: [
-                                {
-                                    index: 'editor',
-                                    title: '富文本编辑器'
-                                },
-                                {
-                                    index: 'markdown',
-                                    title: 'markdown编辑器'
-                                }
-                            ]
-                        },
-                        {
-                            index: 'upload',
-                            title: '文件上传'
-                        }
-                    ]
-                },
-                {
-                    icon: 'el-icon-lx-emoji',
-                    index: 'icon',
-                    title: '自定义图标'
-                },
-                {
-                    icon: 'el-icon-pie-chart',
-                    index: 'charts',
-                    title: 'schart图表'
-                },
-                {
-                    icon: 'el-icon-rank',
-                    index: '6',
-                    title: '拖拽组件',
-                    subs: [
-                        {
-                            index: 'drag',
-                            title: '拖拽列表'
-                        },
-                        {
-                            index: 'dialog',
-                            title: '拖拽弹框'
-                        }
-                    ]
-                },
-                {
-                    icon: 'el-icon-lx-global',
-                    index: 'i18n',
-                    title: '国际化功能'
-                },
-                {
-                    icon: 'el-icon-lx-warn',
-                    index: '7',
-                    title: '错误处理',
-                    subs: [
-                        {
-                            index: 'permission',
-                            title: '权限测试'
-                        },
-                        {
-                            index: '404',
-                            title: '404页面'
-                        }
-                    ]
-                },
                 // {
-                //     icon: 'el-icon-lx-redpacket_fill',
-                //     index: '/donate',
-                //     title: '支持作者'
+                //     icon: 'el-icon-lx-cascades',
+                //     index: 'table',
+                //     title: '基础表格'
+                // },
+                // {
+                //     icon: 'el-icon-lx-copy',
+                //     index: 'tabs',
+                //     title: 'tab选项卡'
+                // },
+                // {
+                //     icon: 'el-icon-lx-calendar',
+                //     index: '3',
+                //     title: '表单相关',
+                //     subs: [
+                //         {
+                //             index: 'form',
+                //             title: '基本表单'
+                //         },
+                //         {
+                //             index: '3-2',
+                //             title: '三级菜单',
+                //             subs: [
+                //                 {
+                //                     index: 'editor',
+                //                     title: '富文本编辑器'
+                //                 },
+                //                 {
+                //                     index: 'markdown',
+                //                     title: 'markdown编辑器'
+                //                 }
+                //             ]
+                //         },
+                //         {
+                //             index: 'upload',
+                //             title: '文件上传'
+                //         }
+                //     ]
+                // },
+                // {
+                //     icon: 'el-icon-lx-emoji',
+                //     index: 'icon',
+                //     title: '自定义图标'
+                // },
+                // {
+                //     icon: 'el-icon-pie-chart',
+                //     index: 'charts',
+                //     title: 'schart图表'
+                // },
+                // {
+                //     icon: 'el-icon-rank',
+                //     index: '6',
+                //     title: '拖拽组件',
+                //     subs: [
+                //         {
+                //             index: 'drag',
+                //             title: '拖拽列表'
+                //         },
+                //         {
+                //             index: 'dialog',
+                //             title: '拖拽弹框'
+                //         }
+                //     ]
+                // },
+                // {
+                //     icon: 'el-icon-lx-global',
+                //     index: 'i18n',
+                //     title: '国际化功能'
+                // },
+                // {
+                //     icon: 'el-icon-lx-warn',
+                //     index: '7',
+                //     title: '错误处理',
+                //     subs: [
+                //         {
+                //             index: 'permission',
+                //             title: '权限测试'
+                //         },
+                //         {
+                //             index: '404',
+                //             title: '404页面'
+                //         }
+                //     ]
                 // },
                 {
-                    icon: 'el-icon-lx-cascades',
-                    index: '/stock',
-                    title: '库存表'
-                },
-                {
-                    icon: 'el-icon-lx-cascades',
-                    index: '/supplier',
-                    title: '供应商表'
-                },
-                {
-                    icon: 'el-icon-lx-cascades',
-                    index: '/user',
-                    title: '用户管理'
-                },
-                {
-                    icon: 'el-icon-lx-cascades',
-                    index: '/user',
-                    title: '权限管理',
-                    subs: [
+                    icon:'el-icon-lx-profile',
+                    index:'/manage',
+                    title:'用户权限管理',
+                    subs:[
                     {
-                        index: 'roles',
-                        title: '角色列表'
+                        icon: 'el-icon-lx-people',
+                        index: '/user',
+                        title: '用户管理'
                     },
                     {
-                        index: 'rights',
-                        title: '权限列表'
+                        icon: 'el-icon-lx-cascades',
+                        index: '/right',
+                        title: '权限管理',
+                        subs: [
+                        {
+                            icon: 'el-icon-lx-cascades',
+                            index: '/roles',
+                            title: '角色列表'
+                        },
+                        {
+                            icon: 'el-icon-lx-cascades',
+                            index: '/rights',
+                            title: '权限列表'
+                        }
+                        ]
                     }
-                ]
+                    ]
                 },
                 {
-                    icon: 'el-icon-lx-cascades',
+                    icon: 'el-icon-lx-friend',
+                    index:'storekeeper',
+                    title: '库管员',
+                    subs: [
+                        {
+                            icon: 'el-icon-lx-cascades',
+                            index: '/stock',
+                            title: '库存表'
+                        },
+                        {
+                            icon: 'el-icon-lx-cascades',
+                            index: '/supplier',
+                            title: '供应商表'
+                        },
+                        {
+                            icon: 'el-icon-lx-cascades',
+                            index: '/good',
+                            title: '商品表单'
+                        },
+                        {
+                            icon: 'el-icon-lx-cascades',
+                            index: '/goodin',
+                            title: '商品入库单'
+                        },
+                        {
+                            icon: 'el-icon-lx-cascades',
+                            index: '/goodout',
+                            title: '商品出库单'
+                        },
+                        {
+                            icon: 'el-icon-lx-cascades',
+                            index: '/inventory',
+                            title: '盘存表单'
+                        },
+                    ]
+                },
+                {
+                    icon: 'el-icon-lx-friend',
+                    index:'saleman',
+                    title: '营业员',
+                    subs: [
+                    {
+                        icon: 'el-icon-lx-cascades',
+                        index: '/good',
+                        title: '商品表单'
+                    },
+                    {
+                        icon: 'el-icon-lx-cascades',
+                        index: '/goodout',
+                        title: '商品出库单'
+                    },
+                    {
+                        icon: 'el-icon-lx-cascades',
+                        index: '/inventory',
+                        title: '盘存表单'   
+                    },
+                    ]
+                },
+                {
+                    icon: 'el-icon-lx-time',
                     index: '/worktime',
                     title: '工作时间表'
                 },
                 {
-                    icon: 'el-icon-lx-cascades',
-                    index: '/good',
-                    title: '商品表单'
+                    icon: 'el-icon-lx-group',
+                    index: '/ourselves',
+                    title: '关于我们'
                 },
                 {
-                    icon: 'el-icon-lx-cascades',
-                    index: '/goodin',
-                    title: '商品入库单'
+                    icon: 'el-icon-lx-emoji',
+                    index: '/icon',
+                    title: '自定义图标'
                 },
-                {
-                    icon: 'el-icon-lx-cascades',
-                    index: '/goodout',
-                    title: '商品出库单'
-                },
-                {
-                    icon: 'el-icon-lx-cascades',
-                    index: '/inventory',
-                    title: '盘存表单'
-                }
             ]
         };
     },

@@ -10,7 +10,7 @@ const router = new Router({
             redirect: '/login'
         },
         {
-            path: '/',
+            path: '/home',
             component: () => import(/* webpackChunkName: "home" */ '../components/common/Home.vue'),
             meta: { title: '自述文件' },
             children: [
@@ -97,11 +97,11 @@ const router = new Router({
                     component: () => import(/* webpackChunkName: "403" */ '../components/page/403.vue'),
                     meta: { title: '403' }
                 },
-                // {
-                //     path: '/donate',
-                //     component: () => import(/* webpackChunkName: "donate" */ '../components/page/Donate.vue'),
-                //     meta: { title: '支持作者' }
-                // },
+                {
+                    path: '/ourselves',
+                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/Ourselves.vue'),
+                    meta: { title: '关于我们' }
+                },
                 {
                     path: '/stock',
                     component: () => import(/* webpackChunkName: "stock" */ '../components/page/Stock.vue'),
