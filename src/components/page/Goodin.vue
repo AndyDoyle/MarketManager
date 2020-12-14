@@ -38,7 +38,7 @@
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
                 <el-table-column prop="suplliername" label="供应商名称"></el-table-column>
                 <el-table-column prop="goodname" label="商品名称"></el-table-column>
-                <el-table-column prop="date" label="入库日期"></el-table-column>
+                <el-table-column prop="date" label="入库日期" :formatter="formatDate"></el-table-column>
                 <el-table-column prop="quantity" label="入库数量"></el-table-column>
                 <el-table-column prop="unit" label="入库单位"></el-table-column>
                 <el-table-column prop="price" label="入库单价"></el-table-column>
@@ -201,7 +201,17 @@ export default {
         this.getData();
     },
     methods: {
-        // 获取 easy-mock 的模拟数据
+        //格式化时间方法区
+        formatDate(row, column) {
+            // 获取单元格数据
+            let data = row[column.property]
+            if(data == null) {
+                return null
+            }
+            let dt = new Date(data)
+                return dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate()
+        },
+        // 获取数据
         getData() {            
         this.axios({
             method:"get",
