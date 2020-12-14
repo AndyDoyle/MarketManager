@@ -15,7 +15,7 @@ import 'babel-polyfill';
 // var axios = require('axios')
 // // 在 request 拦截器中，展示进度条 NProgress.start()
 // axios.interceptors.request.use(config => {
-// // console.log(config)
+//     console.log(config) 
 // //   NProgress.start()
 //   config.headers.authorization = window.sessionStorage.getItem('token')
 //   // 在最后必须 return config

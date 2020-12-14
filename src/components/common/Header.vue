@@ -55,13 +55,13 @@ export default {
         return {
             collapse: false,
             fullscreen: false,
-            name: 'linxin',
+            name: 'tangyi',
             message: 2
         };
     },
     computed: {
         username() {
-            let username = localStorage.getItem('ms_username');
+            let username = sessionStorage.getItem('ms_username');
             return username ? username : this.name;
         }
     },

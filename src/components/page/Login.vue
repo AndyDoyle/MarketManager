@@ -55,6 +55,7 @@ export default {
             this.userToken = res.headers.authorization;
             //储存到vuex
             window.sessionStorage.setItem('token', this.userToken);
+            // console.log(sessionStorage);
             this.$message.success("登陆成功");
             this.$router.push({ path:'/dashboard'})
         }).catch(err=>{

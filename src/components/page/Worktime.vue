@@ -2,53 +2,37 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item>
-                    <i class="el-icon-lx-worktime"></i> 工作时间表
-                </el-breadcrumb-item>
+                <el-breadcrumb-item> <i class="el-icon-lx-worktime"></i> 工作时间表 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="handle-box">
-            <el-button
-                type="primary"
-                icon="el-icon-delete"
-                class="handle-del mr10"
-                @click="delAllSelection"
-            >批量删除</el-button>
+            <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量删除</el-button>
             <el-select v-model="query.role" placeholder="身份" class="handle-select mr10">
-            <el-option key="1" label="营业员" value="营业员"></el-option>
-            <el-option key="2" label="库管员" value="库管员"></el-option>
+                <el-option key="1" label="营业员" value="营业员"></el-option>
+                <el-option key="2" label="库管员" value="库管员"></el-option>
             </el-select>
-            <el-input v-model="query.username" placeholder="用户名称" class="handle-input mr10" ></el-input>
-            <el-button type="primary" icon="el-icon-search" >搜索</el-button>
-            <el-button type="primary" icon="el-icon-plus" @click="addUserTime" >添加用户时间表</el-button>
+            <el-input v-model="query.username" placeholder="用户名称" class="handle-input mr10"></el-input>
+            <el-button type="primary" icon="el-icon-search">搜索</el-button>
+            <el-button type="primary" icon="el-icon-plus" @click="addUserTime">添加用户时间表</el-button>
         </div>
         <el-table
-                :data="tableData"
-                border
-                class="table"
-                ref="multipleTable"
-                header-cell-class-name="table-header"
-                @selection-change="handleSelectionChange"
+            :data="tableData"
+            border
+            class="table"
+            ref="multipleTable"
+            header-cell-class-name="table-header"
+            @selection-change="handleSelectionChange"
         >
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-            <el-table-column prop="name" label="用户名称"></el-table-column>
+            <el-table-column prop="userId" label="用户名称"></el-table-column>
             <el-table-column prop="sdate" label="上班时间"></el-table-column>
             <el-table-column prop="edate" label="下班时间"></el-table-column>
-            <el-table-column prop="workday" label="星期"></el-table-column>
+            <el-table-column prop="workDay" label="星期"></el-table-column>
             <el-table-column label="操作" width="180" align="center">
-            <template slot-scope="scope">
-                    <el-button
-                        type="text"
-                        icon="el-icon-edit"
-                        @click="handleEdit(scope.$index, scope.row)"
-                    >编辑</el-button>
-                    <el-button
-                        type="text"
-                        icon="el-icon-delete"
-                        class="red"
-                        @click="handleDelete(scope.$index, scope.row)"
-                    >删除</el-button>
+                <template slot-scope="scope">
+                    <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -60,7 +44,7 @@
                 :page-size="query.pageSize"
                 :total="pageTotal"
                 @current-change="handlePageChange"
-            ></el-pagination> 
+            ></el-pagination>
         </div>
         <!-- 弹出增加用户时间表编辑框 -->
         <el-dialog title="添加用户时间表" :visible.sync="addVisible" width="30%">
@@ -69,18 +53,10 @@
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 <el-form-item label="上班时间">
-                    <el-time-picker
-                        placeholder="选择时间"
-                        v-model="form.sdate"
-                        style="width: 100%;"
-                    ></el-time-picker>
+                    <el-time-picker placeholder="选择时间" v-model="form.sdate" style="width: 100%"></el-time-picker>
                 </el-form-item>
                 <el-form-item label="下班时间">
-                    <el-time-picker
-                        placeholder="选择时间"
-                        v-model="form.edate"
-                        style="width: 100%;"
-                    ></el-time-picker>
+                    <el-time-picker placeholder="选择时间" v-model="form.edate" style="width: 100%"></el-time-picker>
                 </el-form-item>
                 <el-form-item label="星期">
                     <el-input v-model="form.workday"></el-input>
@@ -98,18 +74,10 @@
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 <el-form-item label="上班时间">
-                    <el-time-picker
-                        placeholder="选择时间"
-                        v-model="form.sdate"
-                        style="width: 100%;"
-                    ></el-time-picker>
+                    <el-time-picker placeholder="选择时间" v-model="form.sdate" style="width: 100%"></el-time-picker>
                 </el-form-item>
                 <el-form-item label="下班时间">
-                    <el-time-picker
-                        placeholder="选择时间"
-                        v-model="form.edate"
-                        style="width: 100%;"
-                    ></el-time-picker>
+                    <el-time-picker placeholder="选择时间" v-model="form.edate" style="width: 100%"></el-time-picker>
                 </el-form-item>
                 <el-form-item label="星期">
                     <el-input v-model="form.workday"></el-input>
@@ -131,8 +99,8 @@ export default {
             query: {
                 name: '',
                 sdate: '',
-                edate:'',
-                workday:'',
+                edate: '',
+                workday: '',
                 pageIndex: 1,
                 pageSize: 10
             },
@@ -141,7 +109,7 @@ export default {
             delList: [],
             addVisible: false,
             editVisible: false,
-            pageTotal: 0,
+            pageTotal: 1,
             form: {},
             idx: -1,
             id: -1
@@ -153,11 +121,16 @@ export default {
     methods: {
         // 获取 easy-mock 的模拟数据
         getData() {
-            worktimeData(this.query).then(res => {
+            this.axios({
+                method: 'get',
+                url: 'worktime',
+                headers: { authorization: window.sessionStorage.getItem('token') }
+            }).then((res) => {
                 console.log(res);
-                this.tableData = res.list;
-                this.pageTotal = res.pageTotal || 50;
+                console.log(res.data);
+                this.tableData = res.data;
             });
+            this.pageTotal = res.pageTotal || 50;
         },
         // 触发搜索按钮
         handleSearch() {
@@ -190,8 +163,8 @@ export default {
             this.$message.error(`删除了${str}`);
             this.multipleSelection = [];
         },
-        addUserTime(){
-            this.addVisible = true; 
+        addUserTime() {
+            this.addVisible = true;
         },
         // 编辑操作
         handleEdit(index, row) {
