@@ -41,6 +41,7 @@
                         <a href="https://github.com/ty2001" target="_blank">
                             <el-dropdown-item>项目仓库</el-dropdown-item>
                         </a>
+                        <el-dropdown-item divided command="PersonalInformation">个人信息</el-dropdown-item>
                         <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -72,6 +73,9 @@ export default {
                 // localStorage.removeItem('ms_username');
                 window.sessionStorage.clear();
                 this.$router.push('/login');
+            }
+            if (command == 'PersonalInformation') {
+                this.$router.push('/information');
             }
         },
         // 侧边栏折叠
