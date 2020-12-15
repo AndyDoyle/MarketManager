@@ -61,7 +61,7 @@
                             type="text"
                             icon="el-icon-delete"
                             class="red"
-                            @click="handleDelete(scope.row.id, scope.$index, scope.row)"
+                            @click="handleDelete(scope.$index, scope.row)"
                         >删除</el-button>
                     </template>
                 </el-table-column>
@@ -231,23 +231,14 @@ export default {
             this.getData();
         },
         // 删除操作
-        handleDelete(id, index, row) {
+        handleDelete(index, row) {
             // 二次确认删除
             this.$confirm('确定要删除吗？', '提示', {
                 type: 'warning'
             })
                 .then(() => {
-                    console.log('删除的ID是' + id),
-                    this.axios({
-                        method: 'delete',
-                        url: 'goodout/' + id,
-                        headers: { authorization: window.sessionStorage.getItem('token') }
-                    })
-                        .then((res) => {
-                            this.$message.success('删除成功');
-                            this.tableData.splice(index, 1);
-                        })
-                        .catch(() => {});
+                    this.$message.success('删除成功');
+                    this.tableData.splice(index, 1);
                 })
                 .catch(() => {});
         },

@@ -151,12 +151,7 @@ const router = new Router({
                     path: '/inventory',
                     component: () => import(/*webpackChunkName: "inventory" */ '../components/page/Inventory.vue'),
                     meta: { title: '盘存表单'}
-                },
-                {
-                    path: '/information',
-                    component: () => import(/* webpackChunkName: "information" */ '../components/page/Information.vue'),
-                    meta: { title: '个人信息' }
-                },
+                }
             ]
         },
         {
