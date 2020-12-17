@@ -320,8 +320,8 @@ export default {
             this.chartPie.setOption({
             //标题组件
             title: {
-                text: 'Pie Chart',//主标题文本
-                subtext: '纯属虚构',//副标题文本
+                text: '库存量',//主标题文本
+                //subtext: '纯属虚构',//副标题文本
                 x: 'center'
             },
             //提示框组件
@@ -331,25 +331,25 @@ export default {
             },
             //图例组件
             legend: {
-                data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'],//图例的数据数组
+                data: ['零食', '家用电器', '饮品', '生活用品', '玩具'],//图例的数据数组
                 left:"center",//图例组件离容器左侧的距离                        
                 top:"bottom",//图例组件离容器上侧的距离                            
                 orient:"horizontal", //图例列表的布局朝向                       
             },
             series: [
                 {
-                name: '访问来源',
+                name: '',
                 type: 'pie',
                 radius: ['50%', '70%'],//饼图的半径,数组的第一项是内半径，第二项是外半径
                 center: ['50%', '50%'],//饼图的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。
                 //支持设置成百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度
                 roseType: false,//是否展示成南丁格尔图，通过半径区分数据大小
                 data: [//系列中的数据内容数组
-                    {value: 335, name: '直接访问'},
-                    {value: 310, name: '邮件营销'},
-                    {value: 234, name: '联盟广告'},
-                    {value: 135, name: '视频广告'},
-                    {value: 1548, name: '搜索引擎'}
+                    {value: 1335, name: '零食'},
+                    {value: 610, name: '家用电器'},
+                    {value: 834, name: '饮品'},
+                    {value: 1635, name: '生活用品'},
+                    {value: 348, name: '玩具'}
                 ],
                 animationEasing: 'cubicInOut',//初始动画的缓动效果
                 animationDuration: 2600,//初始动画的时长
@@ -368,7 +368,7 @@ export default {
                     trigger: 'axis'//触发类型,'axis'坐标轴触发，主要在柱状图，折线图等会使用类目轴的图表中使用
                 },
                 legend: {
-                    data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']//图例的数据数组
+                    data:['零食','家用电器','生活用品','饮品','玩具']//图例的数据数组
                 },
                 calculable : true,
                 xAxis : [
