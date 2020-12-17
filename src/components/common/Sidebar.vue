@@ -260,11 +260,11 @@ export default {
                     index: '/ourselves',
                     title: '关于我们'
                 },
-                {
-                    icon: 'el-icon-lx-emoji',
-                    index: '/icon',
-                    title: '自定义图标'
-                },
+                // {
+                //     icon: 'el-icon-lx-emoji',
+                //     index: '/icon',
+                //     title: '自定义图标'
+                // },
             ]
         };
     },

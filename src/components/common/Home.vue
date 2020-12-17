@@ -29,6 +29,7 @@ export default {
     data() {
         return {
             tagsList: [],
+            menulist:[],
             collapse: false,
             
         };
@@ -40,6 +41,7 @@ export default {
         vTags
     },
     created() {
+            this.getmenulist();
         bus.$on('collapse-content', (msg) => {
             this.collapse = msg;
         });
@@ -52,6 +54,20 @@ export default {
             }
             this.tagsList = arr;
         });
+    },
+    methods:{
+        getmenulist(){
+                this.axios({
+                method:"get",
+                url:"user/menu",
+                headers:{'authorization':window.sessionStorage.getItem('token')}
+            })
+            .then(res => { 
+                console.log(res)
+                console.log(res.data)
+                this.menulist = res.data
+            })
+        },
     },
     mounted() {
         this.minHeight = document.documentElement.clientHeight - 290;
