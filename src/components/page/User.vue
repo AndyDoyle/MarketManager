@@ -26,15 +26,15 @@
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="id" label="ID" width="120" align="center"></el-table-column>
             <el-table-column prop="username" label="用户名称"></el-table-column>
-            <el-table-column prop="roles[0].name" label="职位"></el-table-column>
             <el-table-column prop="phone" label="用户电话"></el-table-column>
             <el-table-column prop="sex" label="性别"></el-table-column>
-            <el-table-column label="操作" width="180" align="center">
+            <el-table-column prop="roles[0].name" label="职位"></el-table-column>
+            <el-table-column label="操作" width="270" align="center">
                 <template slot-scope="scope">
-                    <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.row.id, scope.row, scope.index)"
-                        >删除</el-button
-                    >
+                    <el-button size="mini" type="warning" icon="el-icon-setting" @click="handleRight(scope.row.id)">授权</el-button>
+                    <el-button size="mini" type="primary" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button size="mini" type="danger" icon="el-icon-delete"  @click="handleDelete(scope.row.id, scope.row, scope.$index)"
+                        >删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -48,20 +48,38 @@
                 @current-change="handlePageChange"
             ></el-pagination>
         </div>
+        <!-- 弹出赋权窗口 -->
+        <el-dialog title="添加角色" :visible.sync="rightVisible" width="20%">
+            <el-form ref="rformref" :model="rightform" label-width="70px">
+                <el-form-item label="用户ID">
+                   <el-input v-model="rightform.userid"></el-input>
+                </el-form-item>
+                <el-form-item label="选择角色">
+                <el-select v-model="rightform.roleid"  placeholder="请选择角色添加">
+                    <el-option label="营业员"  value="3"></el-option>
+                    <el-option label="库管员"  value="2"></el-option>
+                </el-select>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="rightVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveRight">确 定</el-button>
+            </span>
+        </el-dialog>
         <!-- 弹出增加用户编辑框 -->
         <el-dialog title="添加用户" :visible.sync="addVisible" width="30%">
-            <el-form ref="formref" :model="form" label-width="70px">
+            <el-form ref="aformref" :model="addform" label-width="70px">
                 <el-form-item label="用户名称">
-                    <el-input v-model="form.username"></el-input>
+                    <el-input v-model="addform.username"></el-input>
                 </el-form-item>
                 <el-form-item label="用户密码">
-                    <el-input v-model="form.password"></el-input>
+                    <el-input v-model="addform.password"></el-input>
                 </el-form-item>
                 <el-form-item label="电话号码">
-                    <el-input v-model="form.phone"></el-input>
+                    <el-input v-model="addform.phone"></el-input>
                 </el-form-item>
                 <el-form-item label="性别">
-                    <el-radio-group v-model="form.sex">
+                    <el-radio-group v-model="addform.sex">
                         <el-radio label="男"></el-radio>
                         <el-radio label="女"></el-radio>
                     </el-radio-group>
@@ -74,18 +92,24 @@
         </el-dialog>
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px">
+            <el-form ref="uformref" :model="updateform" label-width="70px">
+                <el-form-item label="用户ID">
+                    <el-input v-model="updateform.id"></el-input>
+                </el-form-item>
                 <el-form-item label="用户名称">
-                    <el-input v-model="form.username"></el-input>
+                    <el-input v-model="updateform.username"></el-input>
                 </el-form-item>
                 <el-form-item label="用户密码">
-                    <el-input v-model="form.password"></el-input>
+                    <el-input v-model="updateform.password"></el-input>
                 </el-form-item>
                 <el-form-item label="电话号码">
-                    <el-input v-model="form.phone"></el-input>
+                    <el-input v-model="updateform.phone"></el-input>
                 </el-form-item>
+                <!-- <el-form-item label="职位">
+                    <el-input v-model="updateform.roles[0].name"></el-input>
+                </el-form-item> -->
                 <el-form-item label="性别">
-                    <el-radio-group v-model="form.sex">
+                    <el-radio-group v-model="updateform.sex">
                         <el-radio label="男"></el-radio>
                         <el-radio label="女"></el-radio>
                     </el-radio-group>
@@ -117,8 +141,11 @@ export default {
             delList: [],
             addVisible: false,
             editVisible: false,
-            pageTotal: 1,
-            form: {},
+            rightVisible: false,
+            pageTotal: 1,   
+            addform: {},
+            updateform: {},
+            rightform: {},
             idx: -1,
             id: -1
             // rules: {
@@ -157,7 +184,7 @@ export default {
                 type: 'warning'
             })
                 .then(() => {
-                    console.log('删除的ID是' + id),
+                    console.log('删除的ID是' + index),
                         this.axios({
                             method: 'delete',
                             url: 'admin/user/' + id,
@@ -185,27 +212,22 @@ export default {
             this.$message.error(`删除了${str}`);
             this.multipleSelection = [];
         },
+
+        // 添加用户
         addUser() {
             this.addVisible = true;
         },
-        // 编辑操作
-        handleEdit(index, row) {
-            this.idx = index;
-            this.form = row;
-            this.editVisible = true;
-        },
-        //增加用户
 
         // 保存添加
         saveAdd() {
             this.addVisible = false;
-            this.$refs.formref.validate((valid) => {
+            this.$refs.aformref.validate((valid) => {
                 console.log(valid);
                 // this.query=this.formdata,
                 // console.log(query),
                 this.axios({
                     method: 'post',
-                    params: this.form,
+                    params: this.addform,
                     url: 'admin/user',
                     headers: { authorization: window.sessionStorage.getItem('token') }
                 })
@@ -218,12 +240,65 @@ export default {
                     });
             });
         },
+
+        // 编辑赋权
+        handleRight(id){
+            this.id = id;
+            this.rightform.userid=id;
+            this.rightVisible = true;
+        },
+
+        // 保存编辑
+        saveRight(){
+            this.rightVisible = false;
+            this.$refs.rformref.validate((valid) => {
+                console.log(valid);
+                this.axios({
+                    method: 'put',
+                    params: this.rightform,
+                    url: 'admin/user_role',
+                    headers: { authorization: window.sessionStorage.getItem('token') }
+                })
+                    .then((res) => {
+                        location.reload();
+                        this.$message.success('赋权成功');
+                    })
+                    .catch((err) => {
+                        this.$message.error('赋权失败');
+                    });
+            });
+        },
+
+        // 编辑操作
+        handleEdit(index, row) {
+            this.idx = index;
+            this.updateform.id = row.id;
+            this.editVisible = true;
+        },
+
         // 保存编辑
         saveEdit() {
-            this.editVisible = false;
-            this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-            this.$set(this.tableData, this.idx, this.form);
+            this.editVisible = false;         
+            this.$refs.uformref.validate((valid) => {
+                console.log(valid);
+                console.log(this.updateform);  
+                this.axios({
+                    method: 'put',
+                    params: this.updateform,
+                    url: 'admin/user',
+                    headers: { authorization: window.sessionStorage.getItem('token') }
+                })
+                    .then((res) => {
+                        this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                        this.$set(this.tableData, this.idx, this.updateform); 
+                        // location. reload();
+                    })
+                    .catch((err) => {
+                        this.$message.error('修改失败');
+                    });
+            });
         },
+
         // 分页导航
         handlePageChange(val) {
             this.$set(this.query, 'pageIndex', val);

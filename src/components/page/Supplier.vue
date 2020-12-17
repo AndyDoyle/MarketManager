@@ -50,7 +50,7 @@
                         type="text"
                         icon="el-icon-delete"
                         class="red"
-                        @click="handleDelete(scope.$index, scope.row)"
+                        @click="handleDelete(scope.$index, scope.row ,scope.row.id)"
                     >删除</el-button>
                 </template>
             </el-table-column>
@@ -100,30 +100,30 @@
         </el-dialog>
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="95px">
+            <el-form ref="form" :model="eform" label-width="95px">
                 <el-form-item label="供应商名称">
-                    <el-input v-model="form.name"></el-input>
+                    <el-input v-model="eform.name"></el-input>
                 </el-form-item>
                 <el-form-item label="地址">
-                    <el-input v-model="form.address"></el-input>
+                    <el-input v-model="eform.address"></el-input>
                 </el-form-item>
                 <el-form-item label="电话">
-                    <el-input v-model="form.phone"></el-input>
+                    <el-input v-model="eform.phone"></el-input>
                 </el-form-item>
                 <el-form-item label="邮箱">
-                    <el-input v-model="form.email"></el-input>
+                    <el-input v-model="eform.email"></el-input>
                 </el-form-item>
                 <el-form-item label="传真">
-                    <el-input v-model="form.fax"></el-input>
+                    <el-input v-model="eform.fax"></el-input>
                 </el-form-item>
                 <el-form-item label="信誉">
-                    <el-radio-group v-model="form.reputation">
+                    <el-radio-group v-model="eform.reputation">
                         <el-radio label="好"></el-radio>
                         <el-radio label="不好"></el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="欠款">
-                    <el-input v-model="form.loan"></el-input>
+                    <el-input v-model="eform.loan"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -157,6 +157,7 @@ export default {
             editVisible: false,
             pageTotal: 0,
             form: {},
+            eform: {},
             idx: -1,
             id: -1
         };
@@ -167,11 +168,17 @@ export default {
     methods: {
         // 获取 easy-mock 的模拟数据
         getData() {
-            supplierData(this.query).then(res => {
+                this.axios({
+                method: 'get',
+                url: 'supplier',
+                headers: { authorization: window.sessionStorage.getItem('token') }
+            }).then((res) => {
                 console.log(res);
+                console.log(res.data);
+                this.tableData = res.data;
+            });
                 this.tableData = res.list;
                 this.pageTotal = res.pageTotal || 50;
-            });
         },
         // 触发搜索按钮
         handleSearch() {
@@ -179,16 +186,25 @@ export default {
             this.getData();
         },
         // 删除操作
-        handleDelete(index, row) {
+        handleDelete(index, row , id) {
             // 二次确认删除
             this.$confirm('确定要删除吗？', '提示', {
                 type: 'warning'
             })
-                .then(() => {
-                    this.$message.success('删除成功');
-                    this.tableData.splice(index, 1);
-                })
-                .catch(() => {});
+            .then(() => {
+                this.axios({
+                    method: 'delete',
+                    url: 'supplier/'+id,
+                    headers: { authorization: window.sessionStorage.getItem('token') }
+                    })
+                    .then((res) => {
+                        this.$message.success('删除成功');
+                        this.tableData.splice(index, 1);
+                    })
+            })
+            .catch((err) => {
+                this.$message.success('删除失败');
+            });
         },
         // 多选操作
         handleSelectionChange(val) {
@@ -210,21 +226,45 @@ export default {
         // 编辑操作
         handleEdit(index, row) {
             this.idx = index;
-            this.form = row;
+            this.eform = row;
             this.editVisible = true;
         },
         //增加用户
 
         // 保存添加
         saveAdd() {
+            this.axios({
+                method: 'post',
+                url: 'supplier',
+                params:this.form,
+                headers: { authorization: window.sessionStorage.getItem('token') }
+            })
+            .then((res) => {
+                this.$message.success(`添加成功`);
+                location.reload;
+            })
+            .catch((err) => {
+                this.$message.success(`添加失败`);
+            });
             this.addVisible = false;
-            this.$message.success(`添加成功`);
         },
         // 保存编辑
-        saveEdit() {
+        saveEdit() 
+        {
+            this.axios({
+                method: 'put',
+                url: 'supplier',
+                params:this.eform,
+                headers: { authorization: window.sessionStorage.getItem('token') }
+            })
+            .then((res) => {
+                this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                this.$set(this.tableData, this.idx, this.eform);
+            })
+            .catch((err) => {
+                this.$message.success(`修改失败`);
+            });
             this.editVisible = false;
-            this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-            this.$set(this.tableData, this.idx, this.form);
         },
         // 分页导航
         handlePageChange(val) {

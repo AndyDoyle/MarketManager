@@ -239,6 +239,23 @@ export default {
                     title: '工作时间表'
                 },
                 {
+                    icon: 'el-icon-lx-text',
+                    index: '/log',
+                    title: '日志管理',
+                    subs: [
+                    {
+                        icon: 'el-icon-lx-cascades',
+                        index: '/login_log',
+                        title: '登录日志'
+                    },
+                    {
+                        icon: 'el-icon-lx-cascades',
+                        index: '/sys_log',
+                        title: '操作日志'
+                    },
+                    ]
+                },
+                {
                     icon: 'el-icon-lx-group',
                     index: '/ourselves',
                     title: '关于我们'

@@ -17,35 +17,16 @@
       </el-row>
 
       <!-- 角色列表区域 -->
-      <el-table :data="rolelist" border stripe>
+      <el-table :data="rolelist"  border stripe>
         <!-- 展开列 --> 
         <el-table-column type="expand">
-          <template slot-scope="scope">
-            <el-row :class="['bdbottom', i1 === 0 ? 'bdtop' : '', 'vcenter']" v-for="(item1, i1) in scope.row.children" :key="item1.id">
-              <!-- 渲染一级权限 -->
-              <el-col :span="5">
-                <el-tag closable @close="removeRightById(scope.row, item1.id)">{{item1.authName}}</el-tag>
-                <i class="el-icon-caret-right"></i>
-              </el-col>
-              <!-- 渲染二级和三级权限 -->
-              <el-col :span="19">
-                <!-- 通过 for 循环 嵌套渲染二级权限 -->
-                <el-row :class="[i2 === 0 ? '' : 'bdtop', 'vcenter']" v-for="(item2, i2) in item1.children" :key="item2.id">
-                  <el-col :span="6">
-                    <el-tag type="success" closable @close="removeRightById(scope.row, item2.id)">{{item2.authName}}</el-tag>
-                    <i class="el-icon-caret-right"></i>
-                  </el-col>
-                  <el-col :span="18">
-                    <el-tag type="warning" v-for="item3 in item2.children" :key="item3.id" closable @close="removeRightById(scope.row, item3.id)">{{item3.authName}}</el-tag>
-                  </el-col>
-                </el-row>
-              </el-col>
-            </el-row>
-
-            <!-- <pre>
-              {{scope.row}}
-            </pre> -->
-          </template>
+        
+            <template slot-scope="rightslist">
+              <pre>
+                {{rightslist.row}}
+              </pre>
+            </template>
+          
         </el-table-column>
         <!-- 索引列 -->
         <el-table-column type="index" width=300></el-table-column>
@@ -63,19 +44,16 @@
 
     <!-- 分配权限的对话框 -->
     <el-dialog title="分配权限" :visible.sync="setRightDialogVisible" width="50%" @close="setRightDialogClosed">
-        <el-form :model="rightslist">
-          <el-form-item label="活动名称"  width="200">
-            <el-input v-model="rightslist.name" auto-complete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="活动区域"  width="200">
-            <el-select v-model="rightslist.id" placeholder="请选择活动区域">
-              <!-- <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option> -->
-            </el-select>
-          </el-form-item>
+        <el-form :data="rightslist" label-width="80px">
+          <el-form-item label="角色名称" prop="rightsname">
+            <!-- <el-checkbox-group :data="rightslist.name"> -->
+              <!-- <el-checkbox label="美食/餐厅线上活动" ></el-checkbox>
+              <el-checkbox label="地推活动" ></el-checkbox>
+              <el-checkbox label="线下主题活动" ></el-checkbox>
+              <el-checkbox label="单纯品牌曝光" ></el-checkbox> -->
+            <!-- </el-checkbox-group> -->
+          </el-form-item>  
         </el-form>
-      <!-- 树形控件 -->
-      <!-- <el-tree :data="rightslist" show-checkbox node-key="id" default-expand-all :default-checked-keys="defKeys" ref="rightRef"></el-tree> -->
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="allotRights">确 定</el-button>
@@ -96,13 +74,17 @@ export default {
       // 所有权限的数据
       rightslist: [],
       // 默认选中的节点Id值数组
+      rprops:{
+        label:'name',
+      },
       defKeys: [],
       // 当前即将分配权限的角色id
       roleId: ''
     }
   },
   created() {
-    this.getRolesList()
+    this.getRolesList(),
+    this.getrightsList()
   },
   methods: {
     // 获取所有角色的列表
@@ -113,11 +95,26 @@ export default {
             headers:{'authorization':window.sessionStorage.getItem('token')}
         })
         .then(res => { 
-            console.log(res)
+            // console.log(res)
             console.log(res.data)
             this.rolelist = res.data
         })
     },
+
+    getrightsList(){
+        this.axios({
+            method:"get",
+            url:"admin/permission",
+            headers:{'authorization':window.sessionStorage.getItem('token')}
+        })
+        .then(res => { 
+            // console.log(res)
+            console.log(res.data)
+            this.rightslist = res.data
+        })
+    },
+
+
     // 根据Id删除对应的权限
     async removeRightById(role, rightId) {
       // 弹框提示用户是否要删除
@@ -147,8 +144,8 @@ export default {
       role.children = res.data
     },
     // 展示分配权限的对话框
-    async showSetRightDialog(rolelist) {
-      this.roleId = rolelist.id
+    showSetRightDialog(rolelist) {
+      this.roleId = rolelist.id;
       // 获取所有权限的数据
       this.axios({
           method:"get",
@@ -161,10 +158,9 @@ export default {
           this.rightslist = res.data
           console.log(this.rightslist)
       })
-
-      if (res.status !== 200) {
-        return this.$message.error('获取权限数据失败！')
-      }
+      .catch(err =>{
+          this.$message.error('获取权限数据失败！');
+      })
       // 递归获取三级节点的Id
       // this.getLeafKeys(role, this.defKeys)
       this.setRightDialogVisible = true

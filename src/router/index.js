@@ -25,6 +25,16 @@ const router = new Router({
                     meta: { title: '自定义图标' }
                 },
                 {
+                    path: '/login_log',
+                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/Login_log.vue'),
+                    meta: { title: '登录日志' }
+                },
+                {
+                    path: '/sys_log',
+                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/Sys_log.vue'),
+                    meta: { title: '系统日志' }
+                },
+                {
                     path: '/table',
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
                     meta: { title: '基础表格' }

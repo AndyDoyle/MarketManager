@@ -36,11 +36,11 @@
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
                 <el-table-column prop="name" label="商品名称"></el-table-column>
-                <el-table-column prop="type" label="商品种类" width="150" align="center"></el-table-column>
+                <el-table-column prop="typeId" label="商品种类" width="150" align="center"></el-table-column>
                 <el-table-column prop="sdate" label="生产日期" :formatter="formatDate"></el-table-column>
                 <el-table-column prop="edate" label="有效期至" :formatter="formatDate"></el-table-column>
                 <el-table-column prop="price" label="单价" width="100" align="center"></el-table-column>
-                <el-table-column prop="unit" label="单位" width="100" align="center"></el-table-column>
+                <el-table-column prop="unitId" label="单位" width="100" align="center"></el-table-column>
                 <el-table-column prop="other" label="备注"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
@@ -53,7 +53,7 @@
                             type="text"
                             icon="el-icon-delete"
                             class="red"
-                            @click="handleDelete(scope.$index, scope.row)"
+                            @click="handleDelete(scope.$index, scope.row ,scope.row.id)"
                         >删除</el-button>
                     </template>
                 </el-table-column>
@@ -77,11 +77,11 @@
                     <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 <el-form-item label="商品种类">
-                    <el-select v-model="form.type" placeholder="请选择">
-                        <el-option key="1" label="零食" value="零食"></el-option>
-                        <el-option key="2" label="生活用品" value="生活用品"></el-option>
-                        <el-option key="3" label="家用电器" value="家用电器"></el-option>
-                        <el-option key="4" label="饮品" value="饮品"></el-option>
+                    <el-select v-model="form.typeId" placeholder="请选择">
+                        <el-option key="1" label="零食" value=1></el-option>
+                        <el-option key="2" label="生活用品" value=2></el-option>
+                        <el-option key="3" label="家用电器" value=3></el-option>
+                        <el-option key="4" label="饮品" value=4></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="生产日期">
@@ -110,16 +110,16 @@
                     <el-input v-model="form.price"></el-input>
                 </el-form-item>
                 <el-form-item label="单位">
-                    <el-select v-model="form.unit" placeholder="请选择">
-                        <el-option key="1" label="包" value="包"></el-option>
-                        <el-option key="2" label="瓶" value="瓶"></el-option>
-                        <el-option key="3" label="个" value="个"></el-option>
-                        <el-option key="4" label="听" value="听"></el-option>
-                        <el-option key="5" label="件" value="件"></el-option>
-                        <el-option key="6" label="箱" value="箱"></el-option>
-                        <el-option key="7" label="只" value="只"></el-option>
-                        <el-option key="8" label="台" value="台"></el-option>
-                        <el-option key="9" label="袋" value="袋"></el-option>
+                    <el-select v-model="form.unitId" placeholder="请选择">
+                        <el-option key="1" label="包" value=1></el-option>
+                        <el-option key="2" label="瓶" value=2></el-option>
+                        <el-option key="3" label="个" value=3></el-option>
+                        <el-option key="4" label="听" value=4></el-option>
+                        <el-option key="5" label="件" value=5></el-option>
+                        <el-option key="6" label="箱" value=6></el-option>
+                        <el-option key="7" label="只" value=7></el-option>
+                        <el-option key="8" label="台" value=8></el-option>
+                        <el-option key="9" label="袋" value=9></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注">
@@ -133,16 +133,16 @@
         </el-dialog>
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px">
+            <el-form ref="eform" :model="eform" label-width="70px">
                 <el-form-item label="商品名称">
-                    <el-input v-model="form.name"></el-input>
+                    <el-input v-model="eform.name"></el-input>
                 </el-form-item>
                 <el-form-item label="商品种类">
-                    <el-select v-model="form.type" placeholder="请选择">
-                        <el-option key="1" label="零食" value="零食"></el-option>
-                        <el-option key="2" label="生活用品" value="生活用品"></el-option>
-                        <el-option key="3" label="家用电器" value="家用电器"></el-option>
-                        <el-option key="4" label="饮品" value="饮品"></el-option> 
+                    <el-select v-model="eform.type" placeholder="请选择">
+                        <el-option key="1" label="零食" value="1"></el-option>
+                        <el-option key="2" label="生活用品" value="2"></el-option>
+                        <el-option key="3" label="家用电器" value="3"></el-option>
+                        <el-option key="4" label="饮品" value="4"></el-option> 
                     </el-select>
                 </el-form-item>
                  <el-form-item label="生产日期">
@@ -168,23 +168,23 @@
                         </el-col>
                 </el-form-item>
                 <el-form-item label="单价">
-                    <el-input v-model="form.price"></el-input>
+                    <el-input v-model="eform.price"></el-input>
                 </el-form-item>
                 <el-form-item label="单位">
-                    <el-select v-model="form.unit" placeholder="请选择">
-                        <el-option key="1" label="包" value="包"></el-option>
-                        <el-option key="2" label="瓶" value="瓶"></el-option>
-                        <el-option key="3" label="个" value="个"></el-option>
-                        <el-option key="4" label="听" value="听"></el-option>
-                        <el-option key="5" label="件" value="件"></el-option>
-                        <el-option key="6" label="箱" value="箱"></el-option>
-                        <el-option key="7" label="只" value="只"></el-option>
-                        <el-option key="8" label="台" value="台"></el-option>
-                        <el-option key="9" label="袋" value="袋"></el-option>
+                    <el-select v-model="eform.unit" placeholder="请选择">
+                        <el-option key="1" label="包" value="1"></el-option>
+                        <el-option key="2" label="瓶" value="2"></el-option>
+                        <el-option key="3" label="个" value="3"></el-option>
+                        <el-option key="4" label="听" value="4"></el-option>
+                        <el-option key="5" label="件" value="5"></el-option>
+                        <el-option key="6" label="箱" value="6"></el-option>
+                        <el-option key="7" label="只" value="7"></el-option>
+                        <el-option key="8" label="台" value="8"></el-option>
+                        <el-option key="9" label="袋" value="9"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注">
-                    <el-input v-model="form.other"></el-input>
+                    <el-input v-model="eform.other"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -222,6 +222,7 @@ export default {
             addVisible: false,
             pageTotal: 1,
             form: {},
+            eform: {},
             idx: -1,
             id: -1
         };
@@ -259,14 +260,24 @@ export default {
             this.getData();
         },
         // 删除操作
-        handleDelete(index, row) {
+        handleDelete(index, row ,id) {
             // 二次确认删除
             this.$confirm('确定要删除吗？', '提示', {
                 type: 'warning'
             })
                 .then(() => {
-                    this.$message.success('删除成功');
-                    this.tableData.splice(index, 1);
+                    this.axios({
+                        method:"delete",
+                        url:"good/"+id,
+                        headers:{'authorization':window.sessionStorage.getItem('token')}
+                        })
+                    .then(res => { 
+                        this.$message.success('删除成功');
+                        this.tableData.splice(index, 1);
+                        })
+                    .catch(err => {
+                        this.$message.error('删除失败');
+                        })
                 })
                 .catch(() => {});
         },
@@ -287,14 +298,24 @@ export default {
         // 编辑操作
         handleEdit(index, row) {
             this.idx = index;
-            this.form = row;
+            this.eform = row;
             this.editVisible = true;
         },
         // 保存编辑
         saveEdit() {
+                this.axios({
+                method:"put",
+                url:"good",
+                headers:{'authorization':window.sessionStorage.getItem('token')}
+                })
+                .then(res => { 
+                    this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                    this.$set(this.tableData, this.idx, this.eform);
+                })
+                .catch(err => {
+                    this.$message.error('修改失败');
+                })
             this.editVisible = false;
-            this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-            this.$set(this.tableData, this.idx, this.form);
         },
         // 添加操作
         addGood() {
@@ -302,8 +323,22 @@ export default {
         },
         //保存添加
         saveAdd(){
+            this.axios({
+                method:"post",
+                url:"good",
+                params:this.form,
+                headers:{'authorization':window.sessionStorage.getItem('token')}
+            })
+            .then(res => { 
+                console.log(res);
+                this.$message.success(`添加商品成功`);
+            })
+            .catch(err => {
+                console.log(res);
+                this.$message.error(`添加商品失败`);
+            })
+            console.log(this.form);
             this.addVisible = false;
-            this.$message.success(`添加商品成功`);
         },
         //取消编辑
         cancelEdit() {
