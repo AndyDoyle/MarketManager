@@ -12,21 +12,27 @@
                     </div>
                     <div class="user-info-list">
                         上次登录时间：
-                        <span>2019-11-01</span>
+                        <span>2020-12-17</span>
                     </div>
                     <div class="user-info-list">
                         上次登录地点：
-                        <span>东莞</span>
+                        <span>成都</span>
                     </div>
                 </el-card>
                 <el-card shadow="hover" style="height:290px;">
                     <div slot="header" class="clearfix">
-                        <span>语言详情</span>
-                    </div>Vue
-                    <el-progress :percentage="71.3" color="#42b983"></el-progress>JavaScript
-                    <el-progress :percentage="24.1" color="#f1e05a"></el-progress>CSS
-                    <el-progress :percentage="13.7"></el-progress>HTML
+                        <span>本周销售情况</span>
+                    </div>
+                    零食
+                    <el-progress :percentage="61.3" color="#42b983"></el-progress>
+                    生活用品
+                    <el-progress :percentage="24.1" color="#f1e05a"></el-progress>
+                    饮品
+                    <el-progress :percentage="18.7"></el-progress>
+                    家用电器
                     <el-progress :percentage="5.9" color="#f56c6c"></el-progress>
+                    玩具
+                    <el-progress :percentage="5.0" color="#f56c6c"></el-progress>
                 </el-card>
             </el-col>
             <el-col :span="16">
@@ -102,7 +108,7 @@
         <el-row :gutter="20">
             <el-col :span="8">
                 <el-card shadow="hover">
-                    <div id="chartPie" class="pie-wrap"></div>
+                    <!-- <div id="chartPie" class="pie-wrap"></div> -->
                     <!-- 描绘折线图 -->
                     <!-- <div id="chartLine" class="line-wrap"></div> -->
                     <!-- <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart> -->
@@ -110,7 +116,7 @@
             </el-col>
             <el-col :span="16">
                 <el-card shadow="hover">
-                    <!-- <schart ref="line" class="schart" canvasId="line" :options="options2"></schart> -->
+                    <schart ref="line" class="schart" canvasId="line" :options="options2"></schart>
                 </el-card>
             </el-col>
         </el-row>
@@ -136,6 +142,8 @@ export default {
     mounted() {
         this.$nextTick(() => {
             this.drawPieChart();
+            let myChart = echarts.init(document.getElementById('echartss'));
+            myChart.setOption(this.echarts1_option);
             //this.drawLineChart();
         })
     },
@@ -150,6 +158,7 @@ export default {
             return this.name === 'admin' ? '超级管理员' : '普通用户';
         }
     },
+    //柱状图
     echarts1_option: {
         title: {
             text: '基本信息',
