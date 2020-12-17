@@ -102,7 +102,17 @@
                         </el-col>
                 </el-form-item>
                 <el-form-item label="出库单位">
-                    <el-input v-model="form.unit"></el-input>
+                    <el-select v-model="form.unit" placeholder="请选择">
+                        <el-option key="1" label="包" value="包"></el-option>
+                        <el-option key="2" label="瓶" value="瓶"></el-option>
+                        <el-option key="3" label="个" value="个"></el-option>
+                        <el-option key="4" label="听" value="听"></el-option>
+                        <el-option key="5" label="件" value="件"></el-option>
+                        <el-option key="6" label="箱" value="箱"></el-option>
+                        <el-option key="7" label="只" value="只"></el-option>
+                        <el-option key="8" label="台" value="台"></el-option>
+                        <el-option key="9" label="袋" value="袋"></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="出库单价">
                     <el-input v-model="form.price"></el-input>
