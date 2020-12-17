@@ -16,14 +16,12 @@
             <el-input v-model="query.username" placeholder="商品名称" class="handle-input mr10" ></el-input>
             <el-button type="primary" icon="el-icon-search" >搜索</el-button>
         </div>
-        <el-table
-                :data="tableData"
-        >
-            <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-            <el-table-column prop="name" label="商品名称"></el-table-column>
+        <el-table :data="tableData" border stripe>
+            <el-table-column prop=index label="ID" width="55" align="center"></el-table-column>
+            <el-table-column prop="goodId" label="商品名称"></el-table-column>
             <el-table-column prop="date" label="更新时间"></el-table-column>
             <el-table-column prop="quantity" label="数量"></el-table-column>
-            <el-table-column prop="unit" label="单位"></el-table-column>
+            <el-table-column prop="unitId" label="单位"></el-table-column>
             <el-table-column prop="price" label="总金额"></el-table-column>
         </el-table>
         <div class="pagination">
@@ -70,11 +68,17 @@ export default {
     methods: {
         // 获取 easy-mock 的模拟数据
         getData() {
-            stockData(this.query).then(res => {
+                this.axios({
+                method: 'get',
+                url: 'stock',
+                headers: { authorization: window.sessionStorage.getItem('token') }
+            }).then((res) => {
                 console.log(res);
+                console.log(res.data);
+                this.tableData = res.data;
+            });
                 this.tableData = res.list;
                 this.pageTotal = res.pageTotal || 50;
-            });
         },
         // 触发搜索按钮
         handleSearch() {
