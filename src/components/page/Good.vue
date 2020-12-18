@@ -172,15 +172,15 @@
                 </el-form-item>
                 <el-form-item label="单位">
                     <el-select v-model="eform.unit" placeholder="请选择">
-                        <el-option key="1" label="包" value="1"></el-option>
-                        <el-option key="2" label="瓶" value="2"></el-option>
-                        <el-option key="3" label="个" value="3"></el-option>
-                        <el-option key="4" label="听" value="4"></el-option>
-                        <el-option key="5" label="件" value="5"></el-option>
-                        <el-option key="6" label="箱" value="6"></el-option>
-                        <el-option key="7" label="只" value="7"></el-option>
-                        <el-option key="8" label="台" value="8"></el-option>
-                        <el-option key="9" label="袋" value="9"></el-option>
+                        <el-option key="1" label="包" value=1></el-option>
+                        <el-option key="2" label="瓶" value=2></el-option>
+                        <el-option key="3" label="个" value=3></el-option>
+                        <el-option key="4" label="听" value=4></el-option>
+                        <el-option key="5" label="件" value=5></el-option>
+                        <el-option key="6" label="箱" value=6></el-option>
+                        <el-option key="7" label="只" value=7></el-option>
+                        <el-option key="8" label="台" value=8></el-option>
+                        <el-option key="9" label="袋" value=9></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="备注">

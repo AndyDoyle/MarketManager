@@ -32,8 +32,8 @@ axios.defaults.baseURL = 'http://119.29.40.206:8081'
 Vue.prototype.$http = axios
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios,axios);
-import echarts from 'echarts'
-Vue.prototype.$echarts = echarts
+// import echarts from 'echarts'
+// Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false;
 Vue.use(VueI18n);

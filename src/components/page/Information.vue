@@ -1,6 +1,6 @@
 <template>
    <div class="all-container">
-    <div class="all-container-padding bg" >
+    <div class="all-container-padding bg"  >
       <el-form :model="query" ref="EditorUserForms">
         <el-form-item label="用户名" prop="username" >
          <el-col :span="8"> <el-input v-model="query.username" disabled ></el-input></el-col>
