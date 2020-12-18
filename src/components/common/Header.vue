@@ -56,7 +56,7 @@ export default {
         return {
             collapse: false,
             fullscreen: false,
-            name: 'tangyi',
+            name: 'admin',
             message: 2
         };
     },

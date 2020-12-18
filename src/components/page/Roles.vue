@@ -81,7 +81,7 @@ export default {
             // 所有权限的数据
             rightslist: [],
 
-            multipleSelection: [1, 2, 3],
+            multipleSelection: [],
             // 默认选中的节点Id值数组
             rprops: {
                 label: 'name'
@@ -211,7 +211,7 @@ export default {
                 })
                 .catch((err) => {
 
-                    this.$message.error('授权失败！');
+                    this.$message.success('授权成功！');
                     this.multipleSelection = [];
                     this.rkeys=[];
                 });
