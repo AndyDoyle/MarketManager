@@ -26,13 +26,13 @@
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
             <el-table-column prop="userId" label="用户名称"></el-table-column>
-            <el-table-column prop="sdate" label="上班时间"></el-table-column>
-            <el-table-column prop="edate" label="下班时间"></el-table-column>
+            <el-table-column prop="sdate" label="上班时间" :formatter="formatDate"></el-table-column>
+            <el-table-column prop="edate" label="下班时间" :formatter="formatDate"></el-table-column>
             <el-table-column prop="workDay" label="星期"></el-table-column>
             <el-table-column label="操作" width="180" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row, scope.row.id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -119,6 +119,17 @@ export default {
         this.getData();
     },
     methods: {
+        //格式化时间方法区
+        formatDate(row, column) {
+            // 获取单元格数据
+            let data = row[column.property]
+            if(data == null) {
+                return null
+            }
+            let dt = new Date(data)
+                return dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds()
+                //return dt.getHours() >= 10 ? dt.getHours() : '0' + dt.getHours() +':'+ dt.getMinutes()>=10?dt.getMinutes():'0'+dt.getMinutes() +':'+ dt.getSeconds() >= 10 ? dt.getSeconds() : '0' + dt.getSeconds()
+        },
         // 获取 easy-mock 的模拟数据
         getData() {
             this.axios({
@@ -138,16 +149,25 @@ export default {
             this.getData();
         },
         // 删除操作
-        handleDelete(index, row) {
+        handleDelete(index, row ,id) {
             // 二次确认删除
             this.$confirm('确定要删除吗？', '提示', {
                 type: 'warning'
             })
-                .then(() => {
-                    this.$message.success('删除成功');
-                    this.tableData.splice(index, 1);
-                })
-                .catch(() => {});
+            .then(() => {
+                this.axios({
+                    method: 'delete',
+                    url: 'worktime/'+id,
+                    headers: { authorization: window.sessionStorage.getItem('token') }
+                    })
+                    .then((res) => {
+                        this.$message.success('删除成功');
+                        this.tableData.splice(index, 1);
+                    })
+            })
+            .catch((err) => {
+                this.$message.error('删除失败');
+            });
         },
         // 多选操作
         handleSelectionChange(val) {
@@ -176,14 +196,37 @@ export default {
 
         // 保存添加
         saveAdd() {
+            this.axios({
+                method: 'post',
+                url: 'worktime',
+                params:this.form,
+                headers: { authorization: window.sessionStorage.getItem('token') }
+            })
+            .then((res) => {
+                this.$message.success(`添加成功`);
+                location.reload;
+            })
+            .catch((err) => {
+                this.$message.error(`添加失败`);
+            });
             this.addVisible = false;
-            this.$message.success(`添加成功`);
         },
         // 保存编辑
         saveEdit() {
+            this.axios({
+                method: 'put',
+                url: 'worktime',
+                params:this.eform,
+                headers: { authorization: window.sessionStorage.getItem('token') }
+            })
+            .then((res) => {
+                this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                this.$set(this.tableData, this.idx, this.eform);
+            })
+            .catch((err) => {
+                this.$message.success(`修改失败`);
+            });
             this.editVisible = false;
-            this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-            this.$set(this.tableData, this.idx, this.form);
         },
         // 分页导航
         handlePageChange(val) {
