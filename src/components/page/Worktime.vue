@@ -26,13 +26,13 @@
             <el-table-column type="selection" width="55" align="center"></el-table-column>
             <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
             <el-table-column prop="userId" label="用户名称"></el-table-column>
-            <el-table-column prop="sdate" label="上班时间"></el-table-column>
-            <el-table-column prop="edate" label="下班时间"></el-table-column>
+            <el-table-column prop="sdate" label="上班时间" :formatter="formatDate"></el-table-column>
+            <el-table-column prop="edate" label="下班时间" :formatter="formatDate"></el-table-column>
             <el-table-column prop="workDay" label="星期"></el-table-column>
             <el-table-column label="操作" width="180" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row ,scope.row.userId)">删除</el-button>
+                    <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row, scope.row.id)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -46,21 +46,20 @@
                 @current-change="handlePageChange"
             ></el-pagination>
         </div>
-
-        <!-- 编辑弹出框 -->
+        <!-- 弹出增加用户时间表编辑框 -->
         <el-dialog title="添加用户时间表" :visible.sync="addVisible" width="30%">
-            <el-form ref="eform" :model="eform" label-width="70px">
+            <el-form ref="form" :model="form" label-width="70px">
                 <el-form-item label="用户名称">
-                    <el-input v-model="eform.name"></el-input>
+                    <el-input v-model="form.name"></el-input>
                 </el-form-item>
                 <el-form-item label="上班时间">
-                    <el-time-picker placeholder="选择时间" v-model="eform.sdate" style="width: 100%"></el-time-picker>
+                    <el-time-picker placeholder="选择时间" v-model="form.sdate" style="width: 100%"></el-time-picker>
                 </el-form-item>
                 <el-form-item label="下班时间">
-                    <el-time-picker placeholder="选择时间" v-model="eform.edate" style="width: 100%"></el-time-picker>
+                    <el-time-picker placeholder="选择时间" v-model="form.edate" style="width: 100%"></el-time-picker>
                 </el-form-item>
                 <el-form-item label="星期">
-                    <el-input v-model="eform.workday"></el-input>
+                    <el-input v-model="form.workday"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -68,7 +67,7 @@
                 <el-button type="primary" @click="saveAdd">确 定</el-button>
             </span>
         </el-dialog>
-        <!-- 弹出增加用户时间表编辑框 -->
+        <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px">
                 <el-form-item label="用户名称">
@@ -112,7 +111,6 @@ export default {
             editVisible: false,
             pageTotal: 1,
             form: {},
-            eform: {},
             idx: -1,
             id: -1
         };
@@ -121,6 +119,17 @@ export default {
         this.getData();
     },
     methods: {
+        //格式化时间方法区
+        formatDate(row, column) {
+            // 获取单元格数据
+            let data = row[column.property]
+            if(data == null) {
+                return null
+            }
+            let dt = new Date(data)
+                return dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds()
+                //return dt.getHours() >= 10 ? dt.getHours() : '0' + dt.getHours() +':'+ dt.getMinutes()>=10?dt.getMinutes():'0'+dt.getMinutes() +':'+ dt.getSeconds() >= 10 ? dt.getSeconds() : '0' + dt.getSeconds()
+        },
         // 获取 easy-mock 的模拟数据
         getData() {
             this.axios({
@@ -145,21 +154,20 @@ export default {
             this.$confirm('确定要删除吗？', '提示', {
                 type: 'warning'
             })
-                .then(() => {
-                    this.axios({
-                        method: 'delete',
-                        url: 'worktime/' + id,
-                        headers: { authorization: window.sessionStorage.getItem('token') }
+            .then(() => {
+                this.axios({
+                    method: 'delete',
+                    url: 'worktime/'+id,
+                    headers: { authorization: window.sessionStorage.getItem('token') }
                     })
-                        .then((res) => {
-                            this.$message.success('删除成功');
-                            this.tableData.splice(index, 1);
-                        })
-                        .catch((err) => {
-                            this.$message.error('删除成功');
-                        });
-                })
-                .catch(() => {});
+                    .then((res) => {
+                        this.$message.success('删除成功');
+                        this.tableData.splice(index, 1);
+                    })
+            })
+            .catch((err) => {
+                this.$message.error('删除失败');
+            });
         },
         // 多选操作
         handleSelectionChange(val) {
@@ -188,24 +196,36 @@ export default {
 
         // 保存添加
         saveAdd() {
+            this.axios({
+                method: 'post',
+                url: 'worktime',
+                params:this.form,
+                headers: { authorization: window.sessionStorage.getItem('token') }
+            })
+            .then((res) => {
+                this.$message.success(`添加成功`);
+                location.reload;
+            })
+            .catch((err) => {
+                this.$message.error(`添加失败`);
+            });
             this.addVisible = false;
-            this.$message.success(`添加成功`);
         },
         // 保存编辑
         saveEdit() {
             this.axios({
                 method: 'put',
                 url: 'worktime',
-                params: this.eform,
+                params:this.eform,
                 headers: { authorization: window.sessionStorage.getItem('token') }
             })
-                .then((res) => {
-                    this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-                    this.$set(this.tableData, this.idx, this.eform);
-                })
-                .catch(() => {
-                    this.$message.error('编辑失败,没有此权限');
-                });
+            .then((res) => {
+                this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                this.$set(this.tableData, this.idx, this.eform);
+            })
+            .catch((err) => {
+                this.$message.success(`修改失败`);
+            });
             this.editVisible = false;
         },
         // 分页导航
