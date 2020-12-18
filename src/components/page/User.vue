@@ -7,12 +7,14 @@
         </div>
         <div class="handle-box">
             <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量删除</el-button>
-            <el-select v-model="query.user" placeholder="身份" class="handle-select mr10">
-                <el-option key="1" label="营业员" value="营业员"></el-option>
-                <el-option key="2" label="库管员" value="库管员"></el-option>
+            <el-select v-model="query.roles" placeholder="身份" class="handle-select mr10">
+                <el-option key="3" label="营业员" value="3"></el-option>
+                <el-option key="2" label="库管员" value="2"></el-option>
             </el-select>
-            <el-input v-model="tableData.username" placeholder="用户名称" class="handle-input mr10"></el-input>
-            <el-button type="primary" icon="el-icon-search" @click="getData">搜索</el-button>
+            <el-input v-model="tableData" placeholder="用户名称" class="handle-input mr10">
+                <el-button icon="el-icon-search" 
+                slot="append" @click="getData"></el-button>
+            </el-input>
             <el-button type="primary" icon="el-icon-plus" @click="addUser">添加用户</el-button>
         </div>
         <el-table
@@ -33,8 +35,9 @@
                 <template slot-scope="scope">
                     <el-button size="mini" type="warning" icon="el-icon-setting" @click="handleRight(scope.row.id)">授权</el-button>
                     <el-button size="mini" type="primary" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="mini" type="danger" icon="el-icon-delete"  @click="handleDelete(scope.row.id, scope.row, scope.$index)"
-                        >删除</el-button>
+                    <el-button size="mini" type="danger" icon="el-icon-delete" @click="handleDelete(scope.row.id, scope.row, scope.$index)"
+                        >删除</el-button
+                    >
                 </template>
             </el-table-column>
         </el-table>
@@ -52,13 +55,13 @@
         <el-dialog title="添加角色" :visible.sync="rightVisible" width="20%">
             <el-form ref="rformref" :model="rightform" label-width="70px">
                 <el-form-item label="用户ID">
-                   <el-input v-model="rightform.userid"></el-input>
+                    <el-input v-model="rightform.userid"></el-input>
                 </el-form-item>
                 <el-form-item label="选择角色">
-                <el-select v-model="rightform.roleid"  placeholder="请选择角色添加">
-                    <el-option label="营业员"  value="3"></el-option>
-                    <el-option label="库管员"  value="2"></el-option>
-                </el-select>
+                    <el-select v-model="rightform.roleid" placeholder="请选择角色添加">
+                        <el-option label="营业员" value="3"></el-option>
+                        <el-option label="库管员" value="2"></el-option>
+                    </el-select>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -129,20 +132,22 @@ export default {
     data() {
         return {
             query: {
+                qry:'',
                 username: '',
                 password: '',
                 phone: '',
-                sex: '',
+                sex: ''
                 // pageIndex: 1,
                 // pageSize: 10
             },
+            input: '',
             tableData: [],
             multipleSelection: [],
             delList: [],
             addVisible: false,
             editVisible: false,
             rightVisible: false,
-            pageTotal: 1,   
+            pageTotal: 1,
             addform: {},
             updateform: {},
             rightform: {},
@@ -170,13 +175,39 @@ export default {
                 console.log(res.data);
                 this.tableData = res.data;
             });
-            this.pageTotal = res.pageTotal || 50;
+            // this.pageTotal = res.pageTotal || 50;
         },
         // 触发搜索按钮
         handleSearch() {
             this.$set(this.query, 'pageIndex', 1);
             this.getData();
         },
+
+        // search() {
+        //     // 支持模糊查询
+        //     // this.xmgcqkJsonsData：用于搜索的总数据
+        //     //　toLowerCase():用于把字符串转为小写，让模糊查询更加清晰
+        //     let _search = this.jobNo.toLowerCase();
+        //     let newListData = []; // 用于存放搜索出来数据的新数组
+        //     if (_search) {
+        //         this.xmgcqkJsonsData.filter((item) => {
+        //             if (item.code.toLowerCase().indexOf(_search) !== -1) {
+        //                 newListData.push(item);
+        //             }
+        //         });
+        //     }
+        //     this.xmgcqkJsonsData = newListData;
+        //     // console.log(‘新数组',newListData)
+        // },
+        search() {
+            if (!this.input) {
+                return this.items;
+            }
+            return this.items.filter((v) => {
+                return v.name.includes(this.input);
+            });
+        },
+
         // 删除操作
         handleDelete(id, row, index) {
             // 二次确认删除
@@ -204,13 +235,29 @@ export default {
         },
         delAllSelection() {
             const length = this.multipleSelection.length;
-            let str = '';
-            this.delList = this.delList.concat(this.multipleSelection);
-            for (let i = 0; i < length; i++) {
-                str += this.multipleSelection[i].name + ' ';
-            }
-            this.$message.error(`删除了${str}`);
-            this.multipleSelection = [];
+            this.$confirm('确定要批量删除吗？', '提示', {
+                type: 'warning'
+            })
+                .then((res) => {
+                    console.log(length);
+                    for (let i = 0; i < length; i++) {
+                        // console.log(this.multipleSelection[i].id);
+                        this.axios({
+                            method: 'delete',
+                            url: 'admin/user/' + this.multipleSelection[i].id,
+                            headers: { authorization: window.sessionStorage.getItem('token') }
+                        })
+                            .then((res) => {})
+                            .catch(() => {});
+                    }
+                    this.$message.success('删除成功');
+                    location.reload();
+                    this.multipleSelection = [];
+                })
+                .catch((err) => {
+                    this.$message.error('删除失败');
+                    this.multipleSelection = [];
+                });
         },
 
         // 添加用户
@@ -233,7 +280,7 @@ export default {
                 })
                     .then((res) => {
                         this.$message.success('添加成功');
-                        location. reload();
+                        location.reload();
                     })
                     .catch((err) => {
                         this.$message.error('添加失败');
@@ -242,14 +289,14 @@ export default {
         },
 
         // 编辑赋权
-        handleRight(id){
+        handleRight(id) {
             this.id = id;
-            this.rightform.userid=id;
+            this.rightform.userid = id;
             this.rightVisible = true;
         },
 
         // 保存编辑
-        saveRight(){
+        saveRight() {
             this.rightVisible = false;
             this.$refs.rformref.validate((valid) => {
                 console.log(valid);
@@ -278,10 +325,10 @@ export default {
 
         // 保存编辑
         saveEdit() {
-            this.editVisible = false;         
+            this.editVisible = false;
             this.$refs.uformref.validate((valid) => {
                 console.log(valid);
-                console.log(this.updateform);  
+                console.log(this.updateform);
                 this.axios({
                     method: 'put',
                     params: this.updateform,
@@ -290,7 +337,7 @@ export default {
                 })
                     .then((res) => {
                         this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-                        this.$set(this.tableData, this.idx, this.updateform); 
+                        this.$set(this.tableData, this.idx, this.updateform);
                         // location. reload();
                     })
                     .catch((err) => {
@@ -319,7 +366,7 @@ export default {
 
 .handle-input {
     width: 300px;
-    display: inline-block;
+    /* display: inline-block; */
 }
 .table {
     width: 100%;

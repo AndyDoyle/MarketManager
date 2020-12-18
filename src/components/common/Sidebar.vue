@@ -45,12 +45,16 @@
                     </el-menu-item>
                 </template>
             </template>
+
+            
+
         </el-menu>
     </div>
 </template>
 
 <script>
 import bus from '../common/bus';
+import menulist from'./Home';
 export default {
     data() {
         return {

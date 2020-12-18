@@ -12,11 +12,11 @@
                     </div>
                     <div class="user-info-list">
                         上次登录时间：
-                        <span>2019-11-01</span>
+                        <span>2020-12-17</span>
                     </div>
                     <div class="user-info-list">
                         上次登录地点：
-                        <span>东莞</span>
+                        <span>成都</span>
                     </div>
                 </el-card>
                 <el-card shadow="hover" style="height:290px;">
@@ -102,7 +102,7 @@
         <el-row :gutter="20">
             <el-col :span="8">
                 <el-card shadow="hover">
-                    <div id="chartPie" class="pie-wrap"></div>
+                    <!-- <div id="chartPie" class="pie-wrap"></div> -->
                     <!-- 描绘折线图 -->
                     <!-- <div id="chartLine" class="line-wrap"></div> -->
                     <!-- <schart ref="bar" class="schart" canvasId="bar" :options="options"></schart> -->

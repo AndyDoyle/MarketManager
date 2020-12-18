@@ -8,6 +8,14 @@
 
         <!-- 卡片视图 -->
         <el-card>
+        <div class="handle-box">
+            <el-select  placeholder="身份" class="handle-select mr10">
+                <el-option key="1" label="营业员" value="营业员"></el-option>
+                <el-option key="2" label="库管员" value="库管员"></el-option>
+            </el-select>
+            <el-input v-model="tableData" placeholder="用户名称" width=30% class="handle-input mr10"></el-input>
+            <el-button type="primary" icon="el-icon-search" @click="getData">搜索</el-button>
+        </div>
         <el-table :data="tableData" border stripe>
             <el-table-column label="序号" width=500 prop="id"></el-table-column>
             <el-table-column label="权限名称" prop="name" ></el-table-column>
@@ -56,5 +64,33 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
+.handle-box {
+    margin-bottom: 20px;
+}
+
+.handle-select {
+    width: 120px;
+}
+
+.handle-input {
+    width: 300px;
+    display: inline-block;
+}
+.table {
+    width: 100%;
+    font-size: 14px;
+}
+.red {
+    color: #ff0000;
+}
+.mr10 {
+    margin-right: 10px;
+}
+.table-td-thumb {
+    display: block;
+    margin: auto;
+    width: 40px;
+    height: 40px;
+}
 </style>

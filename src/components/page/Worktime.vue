@@ -32,7 +32,7 @@
             <el-table-column label="操作" width="180" align="center">
                 <template slot-scope="scope">
                     <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row ,scope.row.userId)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -46,20 +46,21 @@
                 @current-change="handlePageChange"
             ></el-pagination>
         </div>
-        <!-- 弹出增加用户时间表编辑框 -->
+
+        <!-- 编辑弹出框 -->
         <el-dialog title="添加用户时间表" :visible.sync="addVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px">
+            <el-form ref="eform" :model="eform" label-width="70px">
                 <el-form-item label="用户名称">
-                    <el-input v-model="form.name"></el-input>
+                    <el-input v-model="eform.name"></el-input>
                 </el-form-item>
                 <el-form-item label="上班时间">
-                    <el-time-picker placeholder="选择时间" v-model="form.sdate" style="width: 100%"></el-time-picker>
+                    <el-time-picker placeholder="选择时间" v-model="eform.sdate" style="width: 100%"></el-time-picker>
                 </el-form-item>
                 <el-form-item label="下班时间">
-                    <el-time-picker placeholder="选择时间" v-model="form.edate" style="width: 100%"></el-time-picker>
+                    <el-time-picker placeholder="选择时间" v-model="eform.edate" style="width: 100%"></el-time-picker>
                 </el-form-item>
                 <el-form-item label="星期">
-                    <el-input v-model="form.workday"></el-input>
+                    <el-input v-model="eform.workday"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -67,7 +68,7 @@
                 <el-button type="primary" @click="saveAdd">确 定</el-button>
             </span>
         </el-dialog>
-        <!-- 编辑弹出框 -->
+        <!-- 弹出增加用户时间表编辑框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px">
                 <el-form-item label="用户名称">
@@ -111,6 +112,7 @@ export default {
             editVisible: false,
             pageTotal: 1,
             form: {},
+            eform: {},
             idx: -1,
             id: -1
         };
@@ -138,14 +140,24 @@ export default {
             this.getData();
         },
         // 删除操作
-        handleDelete(index, row) {
+        handleDelete(index, row ,id) {
             // 二次确认删除
             this.$confirm('确定要删除吗？', '提示', {
                 type: 'warning'
             })
                 .then(() => {
-                    this.$message.success('删除成功');
-                    this.tableData.splice(index, 1);
+                    this.axios({
+                        method: 'delete',
+                        url: 'worktime/' + id,
+                        headers: { authorization: window.sessionStorage.getItem('token') }
+                    })
+                        .then((res) => {
+                            this.$message.success('删除成功');
+                            this.tableData.splice(index, 1);
+                        })
+                        .catch((err) => {
+                            this.$message.error('删除成功');
+                        });
                 })
                 .catch(() => {});
         },
@@ -181,9 +193,20 @@ export default {
         },
         // 保存编辑
         saveEdit() {
+            this.axios({
+                method: 'put',
+                url: 'worktime',
+                params: this.eform,
+                headers: { authorization: window.sessionStorage.getItem('token') }
+            })
+                .then((res) => {
+                    this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                    this.$set(this.tableData, this.idx, this.eform);
+                })
+                .catch(() => {
+                    this.$message.error('编辑失败,没有此权限');
+                });
             this.editVisible = false;
-            this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-            this.$set(this.tableData, this.idx, this.form);
         },
         // 分页导航
         handlePageChange(val) {

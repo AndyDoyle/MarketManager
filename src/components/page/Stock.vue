@@ -9,9 +9,9 @@
         </div>
         <div class="handle-box">
             <el-select v-model="query.type" placeholder="商品类型" class="handle-select mr10">
-            <el-option key="1" label="生活用品" value="生活用品"></el-option>
-            <el-option key="2" label="家用电器" value="家用电器"></el-option>
-            <el-option key="3" label="食品" value="食品"></el-option>
+            <el-option key="1" label="生活用品" value=1></el-option>
+            <el-option key="2" label="家用电器" value=2></el-option>
+            <el-option key="3" label="食品" value=3></el-option>
             </el-select>
             <el-input v-model="query.username" placeholder="商品名称" class="handle-input mr10" ></el-input>
             <el-button type="primary" icon="el-icon-search" >搜索</el-button>
