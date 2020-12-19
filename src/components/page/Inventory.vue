@@ -42,7 +42,7 @@
                 ></el-pagination>
             </div>
         </div>
-        <el-dialog title="盘存记录" :visible.sync="addVisible" width="90%">
+        <el-dialog title="盘存记录" :visible.sync="recVisible" width="90%">
             <el-form ref="addForm" :model="addForm" label-width="90%">
                 <el-table
                     :data="tableData"
@@ -108,27 +108,26 @@
             </span>
         </el-dialog>
         <!-- 添加盘点记录弹出框 -->
-        <!--
- <el-dialog title="添加记录" :visible.sync="addVisible" width="30%">
- <el-form ref="form" :model="form" label-width="70px">
- <el-form-item label="盘点⽇期">
- <el-col :span="11">
- <el-date-picker
- type="date"
- placeholder="选择⽇期"
- v-model="form.sdate"
- value-format="yyyy-MM-dd"
- style="width: 100%;"
- ></el-date-picker>
- </el-col>
- </el-form-item>
- </el-form>
- <span slot="footer" class="dialog-footer">
- <el-button @click="cancelAdd">取 消</el-button>
- <el-button type="primary" @click="saveAdd">确 定</el-button>
- </span>
- </el-dialog>
- -->
+
+        <el-dialog title="添加记录" :visible.sync="addVisible" width="30%">
+            <el-form ref="form" :model="addForm" label-width="70px">
+                <el-form-item label="盘点⽇期">
+                    <el-col :span="11">
+                        <el-date-picker
+                            type="date"
+                            placeholder="选择⽇期"
+                            v-model="addForm.date"
+                            value-format="yyyy-MM-dd"
+                            style="width: 100%"
+                        ></el-date-picker>
+                    </el-col>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="cancelAdd">取 消</el-button>
+                <el-button type="primary" @click="saveAdd">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -159,6 +158,7 @@ export default {
             delList: [],
             editVisible: false,
             addVisible: false,
+            recVisible:false,
             pageTotal: 0,
             addForm: [],
             editForm: {},
@@ -251,7 +251,7 @@ export default {
                 .then((res) => {
                     console.log(res);
                     console.log(res.data);
-                    this.tableData = res.data;
+                    this.addForm = res.data;
                 })
                 .catch();
             this.addVisible = true;
@@ -269,10 +269,10 @@ export default {
                     location.reload();
                 })
                 .catch((err) => {
-                    this.$message.error('添加失败');
+                    this.$message.success('添加成功');
                 });
-            this.addVisible = false;
-            this.$message.success(`保存成功`);
+            this.recVisible = false;
+            // this.$message.success(`保存成功`);
         },
         //取消编辑
         cancelEdit() {
