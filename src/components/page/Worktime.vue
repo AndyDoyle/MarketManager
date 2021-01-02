@@ -160,10 +160,10 @@ export default {
                     url: 'worktime/'+id,
                     headers: { authorization: window.sessionStorage.getItem('token') }
                     })
-                    .then((res) => {
-                        this.$message.success('删除成功');
-                        this.tableData.splice(index, 1);
-                    })
+                .then((res) => {
+                    this.$message.success('删除成功');
+                    this.tableData.splice(index, 1);
+                })
             })
             .catch((err) => {
                 this.$message.error('删除失败');

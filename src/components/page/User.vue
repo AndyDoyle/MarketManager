@@ -7,14 +7,13 @@
         </div>
         <div class="handle-box">
             <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量删除</el-button>
-            <el-select v-model="query.roles" placeholder="身份" class="handle-select mr10">
+            <el-select v-model="query.roles" placeholder="职位" class="handle-select mr10" @change="handleSearch">
+                <el-option key="1" label="系统管理员" value="1"></el-option>
                 <el-option key="3" label="营业员" value="3"></el-option>
                 <el-option key="2" label="库管员" value="2"></el-option>
             </el-select>
-            <el-input v-model="tableData" placeholder="用户名称" class="handle-input mr10">
-                <el-button icon="el-icon-search" 
-                slot="append" @click="getData"></el-button>
-            </el-input>
+            <el-input v-model="query.username" placeholder="用户名称" style="width: 200px;" class="handle-input" @keyup.enter.native="handleSearch" />
+            <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
             <el-button type="primary" icon="el-icon-plus" @click="addUser">添加用户</el-button>
         </div>
         <el-table
@@ -141,6 +140,7 @@ export default {
                 // pageSize: 10
             },
             input: '',
+            // sortOptions: [{ label: 'ID Ascending', key: '+id' }, { label: 'ID Descending', key: '-id' }],
             tableData: [],
             multipleSelection: [],
             delList: [],
