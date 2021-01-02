@@ -9,7 +9,7 @@
             <div class="handle-box">
                 <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量删除</el-button>
                 <el-select v-model="query.type" placeholder="商品种类" class="handle-select mr10">
-                    <el-option key="1" label="食零" value="1"></el-option>
+                    <el-option key="1" label="食零" value="食零"></el-option>
                     <el-option key="2" label="生活用品" value="2"></el-option>
                     <el-option key="3" label="家用电器" value="3"></el-option>
                     <el-option key="4" label="饮品" value="4"></el-option>
